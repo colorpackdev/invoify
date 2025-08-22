@@ -188,6 +188,30 @@ const getInvoiceTemplate = async (templateId: number) => {
 };
 
 /**
+ * Dynamically imports and retrieves a packing list template React component based on the provided template ID.
+ *
+ * @param {number} templateId - The ID of the packing list template.
+ * @returns {Promise<React.ComponentType<any> | null>} A promise that resolves to the packing list template component or null if not found.
+ * @throws {Error} Throws an error if there is an issue with the dynamic import or if a default template is not available.
+ */
+const getPackingListTemplate = async (templateId: number) => {
+    // Dynamic template component name
+    const componentName = `PackingListTemplate${templateId}`;
+
+    try {
+        const module = await import(
+            `@/app/components/templates/packing-list/${componentName}`
+        );
+        return module.default;
+    } catch (err) {
+        console.error(`Error importing template ${componentName}: ${err}`);
+
+        // Provide a default template
+        return null;
+    }
+};
+
+/**
  * Convert a file to a buffer. Used for sending invoice as email attachment.
  * @param {File} file - The file to convert to a buffer.
  * @returns {Promise<Buffer>} A promise that resolves to a buffer.
@@ -209,5 +233,6 @@ export {
     isValidEmail,
     isDataUrl,
     getInvoiceTemplate,
+    getPackingListTemplate,
     fileToBuffer,
 };

@@ -84,9 +84,23 @@
         "exportInvoice": "Eksportuj fakturę",
         "newInvoice": "Nowa faktura",
         "generatePdf": "Generuj PDF",
-        "pdfView": "Podgląd PDF"
+        "pdfView": "Podgląd PDF",
+        "packingList": "Lista Pakowania"
     },
     "footer": {
         "developedBy": "Opracowane przez"
+    },
+    "packingList": {
+        "title": "Lista Pakowania",
+        "description": "Wygeneruj szczegółową listę pakowania dla swoich przesyłek",
+        "template": {
+            "title": "Wybór Szablonu",
+            "description": "Wybierz układ dla swojej listy pakowania"
+        },
+        "buttons": {
+            "cancel": "Anuluj",
+            "generatePdf": "Generuj PDF",
+            "generating": "Generowanie..."
+        }
     }
 }

@@ -16,6 +16,7 @@ import {
     InvoiceLoaderModal,
     InvoiceExportModal,
 } from "@/app/components";
+import PackingListGenerator from "./actions/PackingListGenerator";
 
 // Contexts
 import { useInvoiceContext } from "@/contexts/InvoiceContext";
@@ -75,6 +76,9 @@ const InvoiceActions = () => {
                                 {_t("actions.newInvoice")}
                             </BaseButton>
                         </NewInvoiceAlert>
+
+                        {/* Packing List Generator */}
+                        <PackingListGenerator />
 
                         {/* Generate pdf button */}
                         <BaseButton

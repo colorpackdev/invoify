@@ -84,7 +84,21 @@
         "exportInvoice": "Rechnung exportieren",
         "newInvoice": "Neue Rechnung",
         "generatePdf": "PDF generieren",
-        "pdfView": "PDF-Ansicht"
+        "pdfView": "PDF-Ansicht",
+        "packingList": "Packliste"
+    },
+    "packingList": {
+        "title": "Packliste",
+        "description": "Generieren Sie eine detaillierte Packliste für Ihre Sendungen",
+        "template": {
+            "title": "Vorlagen-Auswahl",
+            "description": "Wählen Sie das Layout für Ihre Packliste"
+        },
+        "buttons": {
+            "cancel": "Abbrechen",
+            "generatePdf": "PDF generieren",
+            "generating": "Wird generiert..."
+        }
     },
     "footer": {
         "developedBy": "Entwickelt von"

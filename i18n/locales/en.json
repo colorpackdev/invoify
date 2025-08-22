@@ -84,7 +84,112 @@
         "exportInvoice": "Export Invoice",
         "newInvoice": "New Invoice",
         "generatePdf": "Generate PDF",
-        "pdfView": "PDF View"
+        "pdfView": "PDF View",
+        "packingList": "Packing List"
+    },
+    "packingList": {
+        "title": "Generate Packing List",
+        "description": "Select items to include in the packing list and configure shipping details.",
+        "selectItems": {
+            "title": "Select Items for Packing List",
+            "description": "Choose which items should be included in the packing list. Items marked as services are typically not shipped physically.",
+            "noItemsSelected": "Please select at least one item to include in the packing list.",
+            "itemsSelected": "items selected for packing list",
+            "badges": {
+                "physicalProduct": "Physical Product",
+                "service": "Service",
+                "unknown": "Unknown"
+            }
+        },
+        "shippingInfo": {
+            "title": "Shipping Information",
+            "carrier": "Carrier",
+            "carrierPlaceholder": "DHL, FedEx, UPS...",
+            "trackingNumber": "Tracking Number",
+            "trackingPlaceholder": "Enter tracking number",
+            "shippingMethod": "Shipping Method",
+            "shippingMethodPlaceholder": "Select method",
+            "incoterms": "Incoterms",
+            "incotermsPlaceholder": "Select incoterms",
+            "methods": {
+                "air": "Air",
+                "sea": "Sea",
+                "road": "Road",
+                "express": "Express",
+                "standard": "Standard"
+            },
+            "incotermsList": {
+                "EXW": "EXW - Ex Works",
+                "FOB": "FOB - Free on Board",
+                "CIF": "CIF - Cost, Insurance and Freight",
+                "DDP": "DDP - Delivered Duty Paid"
+            }
+        },
+        "packageConfig": {
+            "title": "Package Configuration",
+            "description": "Configure package dimensions, weights, and other details.",
+            "packageType": "Package Type",
+            "grossWeight": "Gross Weight (kg)",
+            "netWeight": "Net Weight (kg)",
+            "dimensions": "Dimensions (cm)",
+            "dimensionsPlaceholder": {
+                "length": "Length",
+                "width": "Width",
+                "height": "Height"
+            },
+            "specialInstructions": "Special Instructions",
+            "specialInstructionsPlaceholder": "Any special handling instructions...",
+            "types": {
+                "box": "Box",
+                "crate": "Crate",
+                "pallet": "Pallet",
+                "bag": "Bag"
+            }
+        },
+        "template": {
+            "title": "Template Selection",
+            "description": "Choose the layout for your packing list"
+        },
+        "buttons": {
+            "cancel": "Cancel",
+            "generatePdf": "Generate PDF",
+            "generating": "Generating..."
+        }
+    },
+    "physicalProduct": {
+        "title": "Physical Product (for Packing List)",
+        "configureDetails": "Configure Physical Details",
+        "weightAndDimensions": "Weight & Dimensions",
+        "unitWeight": "Unit Weight",
+        "unitPlaceholder": "0.0",
+        "dimensionsLabel": "Dimensions (L × W × H)",
+        "dimensionsPlaceholders": {
+            "length": "Length",
+            "width": "Width",
+            "height": "Height"
+        },
+        "customsAndLegal": "Customs & Legal",
+        "hsCode": "HS Code",
+        "hsCodePlaceholder": "e.g., 8471.30.01",
+        "countryOfOrigin": "Country of Origin",
+        "countryPlaceholder": "e.g., China, USA",
+        "requiresSpecialHandling": "Requires Special Handling",
+        "handlingNotes": "Handling Notes",
+        "handlingNotesPlaceholder": "Fragile, Keep Upright, Temperature Sensitive, etc.",
+        "units": {
+            "weight": {
+                "kg": "kg",
+                "lb": "lb",
+                "g": "g",
+                "oz": "oz"
+            },
+            "dimensions": {
+                "cm": "cm",
+                "in": "in",
+                "m": "m",
+                "ft": "ft"
+            }
+        }
     },
     "footer": {
         "developedBy": "Developed by"

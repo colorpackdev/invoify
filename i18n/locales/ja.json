@@ -84,9 +84,23 @@
         "exportInvoice": "請求書をエクスポート",
         "newInvoice": "新しい請求書",
         "generatePdf": "PDFを生成",
-        "pdfView": "PDFビュー"
+        "pdfView": "PDFビュー",
+        "packingList": "梱包リスト"
     },
     "footer": {
         "developedBy": "開発者"
+    },
+    "packingList": {
+        "title": "梱包リスト",
+        "description": "出荷用の詳細な梱包リストを生成します",
+        "template": {
+            "title": "テンプレート選択",
+            "description": "梱包リストのレイアウトを選択してください"
+        },
+        "buttons": {
+            "cancel": "キャンセル",
+            "generatePdf": "PDF生成",
+            "generating": "生成中..."
+        }
     }
 }

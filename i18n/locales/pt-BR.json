@@ -91,7 +91,112 @@
         "exportInvoice": "Exportar Fatura",
         "newInvoice": "Nova Fatura",
         "generatePdf": "Gerar PDF",
-        "pdfView": "Visualização em PDF"
+        "pdfView": "Visualização em PDF",
+        "packingList": "Packing List"
+    },
+    "packingList": {
+        "title": "Gerar Packing List",
+        "description": "Selecione os itens para incluir no packing list e configure os detalhes de envio.",
+        "selectItems": {
+            "title": "Selecionar Itens para Packing List",
+            "description": "Escolha quais itens devem ser incluídos no packing list. Itens marcados como serviços normalmente não são enviados fisicamente.",
+            "noItemsSelected": "Por favor, selecione pelo menos um item para incluir no packing list.",
+            "itemsSelected": "itens selecionados para packing list",
+            "badges": {
+                "physicalProduct": "Produto Físico",
+                "service": "Serviço",
+                "unknown": "Desconhecido"
+            }
+        },
+        "shippingInfo": {
+            "title": "Informações de Envio",
+            "carrier": "Transportadora",
+            "carrierPlaceholder": "DHL, FedEx, Correios...",
+            "trackingNumber": "Código de Rastreamento",
+            "trackingPlaceholder": "Digite o código de rastreamento",
+            "shippingMethod": "Método de Envio",
+            "shippingMethodPlaceholder": "Selecione o método",
+            "incoterms": "Incoterms",
+            "incotermsPlaceholder": "Selecione incoterms",
+            "methods": {
+                "air": "Aéreo",
+                "sea": "Marítimo",
+                "road": "Rodoviário",
+                "express": "Expresso",
+                "standard": "Padrão"
+            },
+            "incotermsList": {
+                "EXW": "EXW - Ex Works",
+                "FOB": "FOB - Free on Board",
+                "CIF": "CIF - Cost, Insurance and Freight",
+                "DDP": "DDP - Delivered Duty Paid"
+            }
+        },
+        "packageConfig": {
+            "title": "Configuração da Embalagem",
+            "description": "Configure as dimensões, pesos e outros detalhes da embalagem.",
+            "packageType": "Tipo de Embalagem",
+            "grossWeight": "Peso Bruto (kg)",
+            "netWeight": "Peso Líquido (kg)",
+            "dimensions": "Dimensões (cm)",
+            "dimensionsPlaceholder": {
+                "length": "Comprimento",
+                "width": "Largura",
+                "height": "Altura"
+            },
+            "specialInstructions": "Instruções Especiais",
+            "specialInstructionsPlaceholder": "Instruções especiais de manuseio...",
+            "types": {
+                "box": "Caixa",
+                "crate": "Engradado",
+                "pallet": "Palete",
+                "bag": "Saco"
+            }
+        },
+        "template": {
+            "title": "Seleção de Template",
+            "description": "Escolha o layout para sua lista de embalagem"
+        },
+        "buttons": {
+            "cancel": "Cancelar",
+            "generatePdf": "Gerar PDF",
+            "generating": "Gerando..."
+        }
+    },
+    "physicalProduct": {
+        "title": "Produto Físico (para Packing List)",
+        "configureDetails": "Configurar Detalhes Físicos",
+        "weightAndDimensions": "Peso e Dimensões",
+        "unitWeight": "Peso Unitário",
+        "unitPlaceholder": "0.0",
+        "dimensionsLabel": "Dimensões (C × L × A)",
+        "dimensionsPlaceholders": {
+            "length": "Comprimento",
+            "width": "Largura",
+            "height": "Altura"
+        },
+        "customsAndLegal": "Alfandegário e Legal",
+        "hsCode": "Código NCM/HS",
+        "hsCodePlaceholder": "ex: 8471.30.01",
+        "countryOfOrigin": "País de Origem",
+        "countryPlaceholder": "ex: Brasil, China",
+        "requiresSpecialHandling": "Requer Manuseio Especial",
+        "handlingNotes": "Notas de Manuseio",
+        "handlingNotesPlaceholder": "Frágil, Manter em Pé, Sensível à Temperatura, etc.",
+        "units": {
+            "weight": {
+                "kg": "kg",
+                "lb": "lb",
+                "g": "g",
+                "oz": "oz"
+            },
+            "dimensions": {
+                "cm": "cm",
+                "in": "pol",
+                "m": "m",
+                "ft": "pés"
+            }
+        }
     },
     "footer": {
         "developedBy": "Desenvolvido por"

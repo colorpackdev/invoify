@@ -31,21 +31,45 @@ export async function generatePdfService(req: NextRequest) {
 		const InvoiceTemplate = await getInvoiceTemplate(templateId);
 		const htmlTemplate = ReactDOMServer.renderToStaticMarkup(InvoiceTemplate(body));
 
-		if (ENV === "production") {
-			const puppeteer = await import("puppeteer-core");
-			browser = await puppeteer.launch({
-				args: [...chromium.args, "--disable-dev-shm-usage"],
-				defaultViewport: chromium.defaultViewport,
-				executablePath: await chromium.executablePath(CHROMIUM_EXECUTABLE_PATH),
-				headless: true,
-				ignoreHTTPSErrors: true,
-			});
-		} else {
-			const puppeteer = await import("puppeteer");
-			browser = await puppeteer.launch({
-				args: ["--no-sandbox", "--disable-setuid-sandbox"],
-				headless: "new",
-			});
+		// Try multiple browser launch strategies
+		try {
+			// Strategy 1: Production with @sparticuz/chromium
+			if (ENV === "production") {
+				const puppeteer = await import("puppeteer-core");
+				browser = await puppeteer.launch({
+					args: [...chromium.args, "--disable-dev-shm-usage"],
+					defaultViewport: chromium.defaultViewport,
+					executablePath: await chromium.executablePath(),
+					headless: true,
+					ignoreHTTPSErrors: true,
+				});
+			} else {
+				// Strategy 2: Development with local puppeteer
+				const puppeteer = await import("puppeteer");
+				browser = await puppeteer.launch({
+					args: ["--no-sandbox", "--disable-setuid-sandbox"],
+					headless: "new",
+				});
+			}
+		} catch (chromiumError) {
+			console.log("Chromium strategy failed, trying fallback:", chromiumError);
+			// Strategy 3: Fallback to regular puppeteer
+			try {
+				const puppeteer = await import("puppeteer");
+				browser = await puppeteer.launch({
+					args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
+					headless: "new",
+				});
+			} catch (fallbackError) {
+				console.log("Fallback strategy failed, trying core without chromium:", fallbackError);
+				// Strategy 4: Last resort - puppeteer-core without chromium.executablePath
+				const puppeteer = await import("puppeteer-core");
+				browser = await puppeteer.launch({
+					args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
+					headless: true,
+					ignoreHTTPSErrors: true,
+				});
+			}
 		}
 
 		if (!browser) {

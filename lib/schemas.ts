@@ -114,6 +114,23 @@ const ItemSchema = z.object({
     quantity: fieldValidators.quantity,
     unitPrice: fieldValidators.unitPrice,
     total: fieldValidators.stringToNumber,
+    
+    // Optional physical product configuration
+    isPhysicalProduct: z.boolean().optional().default(false),
+    physicalDetails: z.object({
+        unitWeight: z.coerce.number().positive().optional(),
+        weightUnit: z.enum(["kg", "lb", "g", "oz"]).optional().default("kg"),
+        dimensions: z.object({
+            length: z.coerce.number().positive().optional(),
+            width: z.coerce.number().positive().optional(),
+            height: z.coerce.number().positive().optional(),
+            unit: z.enum(["cm", "in", "m", "ft"]).optional().default("cm"),
+        }).optional(),
+        hsCode: z.string().optional(),
+        countryOfOrigin: z.string().optional(),
+        requiresSpecialHandling: z.boolean().optional().default(false),
+        handlingNotes: z.string().optional(),
+    }).optional(),
 });
 
 const PaymentInformationSchema = z.object({

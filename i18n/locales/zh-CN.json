@@ -84,9 +84,23 @@
         "exportInvoice": "导出发票",
         "newInvoice": "新建发票",
         "generatePdf": "生成PDF",
-        "pdfView": "PDF视图"
+        "pdfView": "PDF视图",
+        "packingList": "装箱单"
     },
     "footer": {
         "developedBy": "开发人员"
+    },
+    "packingList": {
+        "title": "装箱单",
+        "description": "为您的货物生成详细的装箱单",
+        "template": {
+            "title": "模板选择",
+            "description": "为您的装箱单选择布局"
+        },
+        "buttons": {
+            "cancel": "取消",
+            "generatePdf": "生成PDF",
+            "generating": "生成中..."
+        }
     }
 }

@@ -52,6 +52,7 @@ const Items = () => {
             quantity: 0,
             unitPrice: 0,
             total: 0,
+            isPhysicalProduct: false,
         });
     };
 

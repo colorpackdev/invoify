@@ -84,9 +84,23 @@
         "exportInvoice": "Eksporter faktura",
         "newInvoice": "Ny faktura",
         "generatePdf": "Generer PDF",
-        "pdfView": "PDF-vising"
+        "pdfView": "PDF-vising",
+        "packingList": "Pakkeliste"
     },
     "footer": {
         "developedBy": "Utvikla av"
+    },
+    "packingList": {
+        "title": "Pakkeliste",
+        "description": "Lag ei detaljert pakkeliste for forsendingane dine",
+        "template": {
+            "title": "Mal-val",
+            "description": "Vel utforming for pakkelista di"
+        },
+        "buttons": {
+            "cancel": "Avbryt",
+            "generatePdf": "Generer PDF",
+            "generating": "Genererer..."
+        }
     }
 }

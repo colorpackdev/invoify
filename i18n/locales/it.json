@@ -84,9 +84,23 @@
         "exportInvoice": "Esportazione della fattura",
         "newInvoice": "Nuova fattura",
         "generatePdf": "Generare PDF",
-        "pdfView": "Vista in PDF"
+        "pdfView": "Vista in PDF",
+        "packingList": "Lista di Imballaggio"
     },
     "footer": {
         "developedBy": "Sviluppato da"
+    },
+    "packingList": {
+        "title": "Lista di Imballaggio",
+        "description": "Genera una lista di imballaggio dettagliata per le tue spedizioni",
+        "template": {
+            "title": "Selezione Template",
+            "description": "Scegli il layout per la tua lista di imballaggio"
+        },
+        "buttons": {
+            "cancel": "Annulla",
+            "generatePdf": "Genera PDF",
+            "generating": "Generando..."
+        }
     }
 }

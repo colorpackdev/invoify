@@ -84,7 +84,21 @@
         "exportInvoice": "Exporter la facture",
         "newInvoice": "Nouvelle facture",
         "generatePdf": "Générer un PDF",
-        "pdfView": "Vue PDF"
+        "pdfView": "Vue PDF",
+        "packingList": "Liste de Colisage"
+    },
+    "packingList": {
+        "title": "Liste de Colisage",
+        "description": "Générez une liste de colisage détaillée pour vos envois",
+        "template": {
+            "title": "Sélection de Modèle",
+            "description": "Choisissez la mise en page pour votre liste de colisage"
+        },
+        "buttons": {
+            "cancel": "Annuler",
+            "generatePdf": "Générer PDF",
+            "generating": "Génération..."
+        }
     },
     "footer": {
         "developedBy": "Développé par"

@@ -84,9 +84,23 @@
         "exportInvoice": "Izbaci fakturu",
         "newInvoice": "Nova faktura",
         "generatePdf": "Generiši PDF",
-        "pdfView": "Pogledaj PDF"
+        "pdfView": "Pogledaj PDF",
+        "packingList": "Листа паковања"
     },
     "footer": {
         "developedBy": "Napravljeno od strane"
+    },
+    "packingList": {
+        "title": "Листа паковања",
+        "description": "Генеришите детаљну листу паковања за ваше пошиљке",
+        "template": {
+            "title": "Избор шаблона",
+            "description": "Изаберите изглед за вашу листу паковања"
+        },
+        "buttons": {
+            "cancel": "Откажи",
+            "generatePdf": "Генериши PDF",
+            "generating": "Генерисање..."
+        }
     }
 }

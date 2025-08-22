@@ -84,7 +84,112 @@
         "exportInvoice": "Exportar Factura",
         "newInvoice": "Nueva Factura",
         "generatePdf": "Generar PDF",
-        "pdfView": "Ver PDF"
+        "pdfView": "Ver PDF",
+        "packingList": "Lista de Empaque"
+    },
+    "packingList": {
+        "title": "Generar Lista de Empaque",
+        "description": "Seleccione los artículos para incluir en la lista de empaque y configure los detalles de envío.",
+        "selectItems": {
+            "title": "Seleccionar Artículos para Lista de Empaque",
+            "description": "Elija qué artículos deben incluirse en la lista de empaque. Los artículos marcados como servicios normalmente no se envían físicamente.",
+            "noItemsSelected": "Por favor, seleccione al menos un artículo para incluir en la lista de empaque.",
+            "itemsSelected": "artículos seleccionados para lista de empaque",
+            "badges": {
+                "physicalProduct": "Producto Físico",
+                "service": "Servicio",
+                "unknown": "Desconocido"
+            }
+        },
+        "shippingInfo": {
+            "title": "Información de Envío",
+            "carrier": "Transportista",
+            "carrierPlaceholder": "DHL, FedEx, UPS...",
+            "trackingNumber": "Número de Seguimiento",
+            "trackingPlaceholder": "Ingrese el número de seguimiento",
+            "shippingMethod": "Método de Envío",
+            "shippingMethodPlaceholder": "Seleccione método",
+            "incoterms": "Incoterms",
+            "incotermsPlaceholder": "Seleccione incoterms",
+            "methods": {
+                "air": "Aéreo",
+                "sea": "Marítimo",
+                "road": "Terrestre",
+                "express": "Exprés",
+                "standard": "Estándar"
+            },
+            "incotermsList": {
+                "EXW": "EXW - Ex Works",
+                "FOB": "FOB - Free on Board",
+                "CIF": "CIF - Cost, Insurance and Freight",
+                "DDP": "DDP - Delivered Duty Paid"
+            }
+        },
+        "packageConfig": {
+            "title": "Configuración del Paquete",
+            "description": "Configure las dimensiones, pesos y otros detalles del paquete.",
+            "packageType": "Tipo de Paquete",
+            "grossWeight": "Peso Bruto (kg)",
+            "netWeight": "Peso Neto (kg)",
+            "dimensions": "Dimensiones (cm)",
+            "dimensionsPlaceholder": {
+                "length": "Largo",
+                "width": "Ancho",
+                "height": "Alto"
+            },
+            "specialInstructions": "Instrucciones Especiales",
+            "specialInstructionsPlaceholder": "Instrucciones especiales de manejo...",
+            "types": {
+                "box": "Caja",
+                "crate": "Cajón",
+                "pallet": "Palé",
+                "bag": "Bolsa"
+            }
+        },
+        "template": {
+            "title": "Selección de Plantilla",
+            "description": "Elige el diseño para tu lista de empaque"
+        },
+        "buttons": {
+            "cancel": "Cancelar",
+            "generatePdf": "Generar PDF",
+            "generating": "Generando..."
+        }
+    },
+    "physicalProduct": {
+        "title": "Producto Físico (para Lista de Empaque)",
+        "configureDetails": "Configurar Detalles Físicos",
+        "weightAndDimensions": "Peso y Dimensiones",
+        "unitWeight": "Peso Unitario",
+        "unitPlaceholder": "0.0",
+        "dimensionsLabel": "Dimensiones (L × A × A)",
+        "dimensionsPlaceholders": {
+            "length": "Largo",
+            "width": "Ancho",
+            "height": "Alto"
+        },
+        "customsAndLegal": "Aduanas y Legal",
+        "hsCode": "Código HS",
+        "hsCodePlaceholder": "ej: 8471.30.01",
+        "countryOfOrigin": "País de Origen",
+        "countryPlaceholder": "ej: España, China",
+        "requiresSpecialHandling": "Requiere Manejo Especial",
+        "handlingNotes": "Notas de Manejo",
+        "handlingNotesPlaceholder": "Frágil, Mantener Vertical, Sensible a Temperatura, etc.",
+        "units": {
+            "weight": {
+                "kg": "kg",
+                "lb": "lb",
+                "g": "g",
+                "oz": "oz"
+            },
+            "dimensions": {
+                "cm": "cm",
+                "in": "pulg",
+                "m": "m",
+                "ft": "pies"
+            }
+        }
     },
     "footer": {
         "developedBy": "Desarrollado por"

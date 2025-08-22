@@ -93,6 +93,13 @@ import InvoiceTemplate2 from "./templates/invoice-pdf/InvoiceTemplate2";
 // Email templates
 import SendPdfEmail from "./templates/email/SendPdfEmail";
 
+// Packing List templates
+import PackingListTemplate1 from "./templates/packing-list/PackingListTemplate1";
+import PackingListTemplate2 from "./templates/packing-list/PackingListTemplate2";
+
+// Packing List components
+import PackingListTemplateSelector from "./packing-list/form/PackingListTemplateSelector";
+
 /* =========================
    ? DEV ONLY
    ========================= */
@@ -146,6 +153,9 @@ export {
     InvoiceLayout,
     InvoiceTemplate1,
     InvoiceTemplate2,
+    PackingListTemplate1,
+    PackingListTemplate2,
+    PackingListTemplateSelector,
     SendPdfEmail,
     DevDebug,
 };
