@@ -30,24 +30,38 @@ import {
 
 // Types
 import { ExportTypes, InvoiceType } from "@/types";
+import { PackingListType } from "@/lib/schemas/packingList";
 
 const defaultInvoiceContext = {
     invoicePdf: new Blob(),
     invoicePdfLoading: false,
+    packingListPdf: new Blob(),
+    packingListPdfLoading: false,
+    packingListData: null as PackingListType | null,
     savedInvoices: [] as InvoiceType[],
     pdfUrl: null as string | null,
+    packingListPdfUrl: null as string | null,
+    activeTab: "invoice" as "invoice" | "packing-list",
     onFormSubmit: (values: InvoiceType) => {},
     newInvoice: () => {},
     generatePdf: async (data: InvoiceType) => {},
+    generatePackingListPdf: async (data: PackingListType) => {},
     removeFinalPdf: () => {},
+    removePackingListPdf: () => {},
     downloadPdf: () => {},
+    downloadPackingListPdf: () => {},
     printPdf: () => {},
+    printPackingListPdf: () => {},
     previewPdfInTab: () => {},
+    previewPackingListPdfInTab: () => {},
+    setActiveTab: (tab: "invoice" | "packing-list") => {},
     saveInvoice: () => {},
     deleteInvoice: (index: number) => {},
     sendPdfToMail: (email: string): Promise<void> => Promise.resolve(),
+    sendPackingListPdfToMail: (email: string): Promise<void> => Promise.resolve(),
     exportInvoiceAs: (exportAs: ExportTypes) => {},
     importInvoice: (file: File) => {},
+    setPackingListData: (data: PackingListType | null) => {},
 };
 
 export const InvoiceContext = createContext(defaultInvoiceContext);
@@ -82,6 +96,10 @@ export const InvoiceContextProvider = ({
   // Variables
   const [invoicePdf, setInvoicePdf] = useState<Blob>(new Blob());
   const [invoicePdfLoading, setInvoicePdfLoading] = useState<boolean>(false);
+  const [packingListPdf, setPackingListPdf] = useState<Blob>(new Blob());
+  const [packingListPdfLoading, setPackingListPdfLoading] = useState<boolean>(false);
+  const [packingListData, setPackingListData] = useState<PackingListType | null>(null);
+  const [activeTab, setActiveTab] = useState<"invoice" | "packing-list">("invoice");
 
   // Saved invoices
   const [savedInvoices, setSavedInvoices] = useState<InvoiceType[]>([]);
@@ -107,6 +125,14 @@ export const InvoiceContextProvider = ({
     return null;
   }, [invoicePdf]);
 
+  // Get packing list pdf url from blob
+  const packingListPdfUrl = useMemo(() => {
+    if (packingListPdf.size > 0) {
+      return window.URL.createObjectURL(packingListPdf);
+    }
+    return null;
+  }, [packingListPdf]);
+
   /**
    * Handles form submission.
    *
@@ -126,6 +152,9 @@ export const InvoiceContextProvider = ({
   const newInvoice = () => {
     reset(FORM_DEFAULT_VALUES);
     setInvoicePdf(new Blob());
+    setPackingListPdf(new Blob());
+    setPackingListData(null);
+    setActiveTab("invoice");
 
     router.refresh();
 
@@ -164,10 +193,51 @@ export const InvoiceContextProvider = ({
   }, []);
 
   /**
+   * Generate a packing list PDF document based on the provided data.
+   *
+   * @param {PackingListType} data - The data used to generate the packing list PDF.
+   * @returns {Promise<void>} - A promise that resolves when the PDF is successfully generated.
+   * @throws {Error} - If an error occurs during the PDF generation process.
+   */
+  const generatePackingListPdf = useCallback(async (data: PackingListType) => {
+    setPackingListPdfLoading(true);
+
+    try {
+      const response = await fetch("/api/packing-list/generate", {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.blob();
+      setPackingListPdf(result);
+      setPackingListData(data);
+
+      if (result.size > 0) {
+        // Toast
+        pdfGenerationSuccess();
+        // Switch to packing list tab
+        setActiveTab("packing-list");
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setPackingListPdfLoading(false);
+    }
+  }, []);
+
+  /**
    * Removes the final PDF file and switches to Live Preview
    */
   const removeFinalPdf = () => {
     setInvoicePdf(new Blob());
+  };
+
+  /**
+   * Removes the packing list PDF file
+   */
+  const removePackingListPdf = () => {
+    setPackingListPdf(new Blob());
+    setPackingListData(null);
   };
 
   /**
@@ -204,6 +274,29 @@ export const InvoiceContextProvider = ({
   };
 
   /**
+   * Downloads packing list PDF file.
+   */
+  const downloadPackingListPdf = () => {
+    // Only download if there is a packing list
+    if (packingListPdf instanceof Blob && packingListPdf.size > 0) {
+      // Create a blob URL to trigger the download
+      const url = window.URL.createObjectURL(packingListPdf);
+
+      // Create an anchor element to initiate the download
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "packing-list.pdf";
+      document.body.appendChild(a);
+
+      // Trigger the download
+      a.click();
+
+      // Clean up the URL object
+      window.URL.revokeObjectURL(url);
+    }
+  };
+
+  /**
    * Prints a PDF file.
    */
   const printPdf = () => {
@@ -215,6 +308,31 @@ export const InvoiceContextProvider = ({
           printWindow.print();
         };
       }
+    }
+  };
+
+  /**
+   * Prints packing list PDF file.
+   */
+  const printPackingListPdf = () => {
+    if (packingListPdf) {
+      const pdfUrl = URL.createObjectURL(packingListPdf);
+      const printWindow = window.open(pdfUrl, "_blank");
+      if (printWindow) {
+        printWindow.onload = () => {
+          printWindow.print();
+        };
+      }
+    }
+  };
+
+  /**
+   * Generates a preview of packing list PDF file and opens it in a new browser tab.
+   */
+  const previewPackingListPdfInTab = () => {
+    if (packingListPdf) {
+      const url = window.URL.createObjectURL(packingListPdf);
+      window.open(url, "_blank");
     }
   };
 
@@ -325,6 +443,39 @@ export const InvoiceContextProvider = ({
   };
 
   /**
+   * Send the packing list PDF to the specified email address.
+   *
+   * @param {string} email - The email address to which the packing list PDF will be sent.
+   * @returns {Promise<void>} A promise that resolves once the email is successfully sent.
+   */
+  const sendPackingListPdfToMail = (email: string) => {
+    const fd = new FormData();
+    fd.append("email", email);
+    fd.append("packingListPdf", packingListPdf, "packing-list.pdf");
+    fd.append("packingListNumber", packingListData?.packingListNumber || "");
+
+    return fetch(SEND_PDF_API, {
+      method: "POST",
+      body: fd,
+    })
+      .then((res) => {
+        if (res.ok) {
+          // Successful toast msg
+          sendPdfSuccess();
+        } else {
+          // Error toast msg
+          sendPdfError({ email, sendPdfToMail: sendPackingListPdfToMail });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+
+        // Error toast msg
+        sendPdfError({ email, sendPdfToMail: sendPackingListPdfToMail });
+      });
+  };
+
+  /**
    * Export an invoice in the specified format using the provided form values.
    *
    * This function initiates the export process with the chosen export format and the form data.
@@ -378,20 +529,33 @@ export const InvoiceContextProvider = ({
       value={{
         invoicePdf,
         invoicePdfLoading,
+        packingListPdf,
+        packingListPdfLoading,
+        packingListData,
         savedInvoices,
         pdfUrl,
+        packingListPdfUrl,
+        activeTab,
         onFormSubmit,
         newInvoice,
         generatePdf,
+        generatePackingListPdf,
         removeFinalPdf,
+        removePackingListPdf,
         downloadPdf,
+        downloadPackingListPdf,
         printPdf,
+        printPackingListPdf,
         previewPdfInTab,
+        previewPackingListPdfInTab,
+        setActiveTab,
         saveInvoice,
         deleteInvoice,
         sendPdfToMail,
+        sendPackingListPdfToMail,
         exportInvoiceAs,
         importInvoice,
+        setPackingListData,
       }}
     >
       {children}

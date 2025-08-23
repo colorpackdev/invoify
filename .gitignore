@@ -40,3 +40,4 @@ next-env.d.ts
 .vs
 
 .gitignore
+.claude/settings.local.json

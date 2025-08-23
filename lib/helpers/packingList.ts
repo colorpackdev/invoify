@@ -47,6 +47,7 @@ export function generatePackingListFromInvoice(invoice: InvoiceType): Partial<Pa
         invoiceDate: details.invoiceDate,
         packingListNumber,
         packingListDate: new Date().toISOString().split('T')[0],
+        logo: details.invoiceLogo, // Include logo from invoice
         
         shipper: {
             name: sender.name,

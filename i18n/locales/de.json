@@ -88,8 +88,64 @@
         "packingList": "Packliste"
     },
     "packingList": {
-        "title": "Packliste",
-        "description": "Generieren Sie eine detaillierte Packliste für Ihre Sendungen",
+        "title": "Packliste Erstellen",
+        "description": "Wählen Sie die Artikel aus, die in die Packliste aufgenommen werden sollen, und konfigurieren Sie die Versanddetails.",
+        "selectItems": {
+            "title": "Artikel für Packliste Auswählen",
+            "description": "Wählen Sie aus, welche Artikel in die Packliste aufgenommen werden sollen. Als Dienstleistungen markierte Artikel werden normalerweise nicht physisch versandt.",
+            "noItemsSelected": "Bitte wählen Sie mindestens einen Artikel für die Packliste aus.",
+            "itemsSelected": "Artikel für Packliste ausgewählt",
+            "badges": {
+                "physicalProduct": "Physisches Produkt",
+                "service": "Dienstleistung",
+                "unknown": "Unbekannt"
+            }
+        },
+        "shippingInfo": {
+            "title": "Versandinformationen",
+            "carrier": "Versandunternehmen",
+            "carrierPlaceholder": "DHL, FedEx, UPS...",
+            "trackingNumber": "Sendungsnummer",
+            "trackingPlaceholder": "Sendungsnummer eingeben",
+            "shippingMethod": "Versandmethode",
+            "shippingMethodPlaceholder": "Methode auswählen",
+            "incoterms": "Incoterms",
+            "incotermsPlaceholder": "Incoterms auswählen",
+            "methods": {
+                "air": "Luftfracht",
+                "sea": "Seefracht",
+                "road": "Landweg",
+                "express": "Express",
+                "standard": "Standard"
+            },
+            "incotermsList": {
+                "EXW": "EXW - Ab Werk",
+                "FOB": "FOB - Frei an Bord",
+                "CIF": "CIF - Kosten, Versicherung und Fracht",
+                "DDP": "DDP - Geliefert verzollt"
+            }
+        },
+        "packageConfig": {
+            "title": "Paketkonfiguration",
+            "description": "Konfigurieren Sie Paketabmessungen, Gewichte und andere Details.",
+            "packageType": "Pakettyp",
+            "grossWeight": "Bruttogewicht (kg)",
+            "netWeight": "Nettogewicht (kg)",
+            "dimensions": "Abmessungen (cm)",
+            "dimensionsPlaceholder": {
+                "length": "Länge",
+                "width": "Breite",
+                "height": "Höhe"
+            },
+            "specialInstructions": "Besondere Anweisungen",
+            "specialInstructionsPlaceholder": "Besondere Behandlungsanweisungen...",
+            "types": {
+                "box": "Karton",
+                "crate": "Kiste",
+                "pallet": "Palette",
+                "bag": "Sack"
+            }
+        },
         "template": {
             "title": "Vorlagen-Auswahl",
             "description": "Wählen Sie das Layout für Ihre Packliste"
@@ -97,7 +153,40 @@
         "buttons": {
             "cancel": "Abbrechen",
             "generatePdf": "PDF generieren",
-            "generating": "Wird generiert..."
+            "generating": "Wird generiert...",
+            "save": "Speichern",
+            "preview": "Vorschau",
+            "download": "Herunterladen",
+            "print": "Drucken",
+            "sendToMail": "Per E-Mail senden"
+        },
+        "pdf": {
+            "backToPreview": "Zurück zur Vorschau",
+            "removePackingListPdf": "Packlisten-PDF entfernen",
+            "tooltips": {
+                "previewInvoice": "Rechnungsvorschau in neuem Tab",
+                "downloadInvoice": "Rechnungs-PDF herunterladen",
+                "printInvoice": "Rechnung drucken",
+                "saveInvoice": "Rechnung auf der Website speichern",
+                "sendInvoiceToMail": "Rechnungs-PDF per E-Mail senden",
+                "previewPackingList": "Packlistenvorschau in neuem Tab",
+                "downloadPackingList": "Packlisten-PDF herunterladen",
+                "printPackingList": "Packliste drucken",
+                "sendPackingListToMail": "Packlisten-PDF per E-Mail senden"
+            },
+            "tabs": {
+                "invoice": "Rechnung",
+                "packingList": "Packliste",
+                "invoicePdf": "Rechnungs-PDF:",
+                "packingListPdf": "Packlisten-PDF:",
+                "pdfDocuments": "PDF-Dokumente:"
+            }
+        },
+        "logo": {
+            "title": "Logo",
+            "description": "Laden Sie ein Logo hoch, das in Ihre Packliste eingefügt werden soll",
+            "label": "Firmenlogo",
+            "placeholder": "Laden Sie Ihr Firmenlogo hoch"
         }
     },
     "footer": {

@@ -38,6 +38,7 @@ import ImportJsonButton from "./invoice/form/sections/ImportJsonButton";
 import PdfViewer from "./invoice/actions/PdfViewer";
 import LivePreview from "./invoice/actions/LivePreview";
 import FinalPdf from "./invoice/actions/FinalPdf";
+import TabbedPdfViewer from "./invoice/actions/TabbedPdfViewer";
 
 // * Reusable components
 // Form fields
@@ -128,6 +129,7 @@ export {
     PdfViewer,
     LivePreview,
     FinalPdf,
+    TabbedPdfViewer,
     FormInput,
     FormTextarea,
     DatePickerFormField,

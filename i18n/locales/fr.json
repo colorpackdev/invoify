@@ -88,8 +88,64 @@
         "packingList": "Liste de Colisage"
     },
     "packingList": {
-        "title": "Liste de Colisage",
-        "description": "Générez une liste de colisage détaillée pour vos envois",
+        "title": "Générer Liste de Colisage",
+        "description": "Sélectionnez les articles à inclure dans la liste de colisage et configurez les détails d'expédition.",
+        "selectItems": {
+            "title": "Sélectionner les Articles pour la Liste de Colisage",
+            "description": "Choisissez quels articles doivent être inclus dans la liste de colisage. Les articles marqués comme services ne sont généralement pas expédiés physiquement.",
+            "noItemsSelected": "Veuillez sélectionner au moins un article à inclure dans la liste de colisage.",
+            "itemsSelected": "articles sélectionnés pour la liste de colisage",
+            "badges": {
+                "physicalProduct": "Produit Physique",
+                "service": "Service",
+                "unknown": "Inconnu"
+            }
+        },
+        "shippingInfo": {
+            "title": "Informations d'Expédition",
+            "carrier": "Transporteur",
+            "carrierPlaceholder": "DHL, FedEx, UPS...",
+            "trackingNumber": "Numéro de Suivi",
+            "trackingPlaceholder": "Entrez le numéro de suivi",
+            "shippingMethod": "Méthode d'Expédition",
+            "shippingMethodPlaceholder": "Sélectionnez une méthode",
+            "incoterms": "Incoterms",
+            "incotermsPlaceholder": "Sélectionnez les incoterms",
+            "methods": {
+                "air": "Aérien",
+                "sea": "Maritime",
+                "road": "Routier",
+                "express": "Express",
+                "standard": "Standard"
+            },
+            "incotermsList": {
+                "EXW": "EXW - Ex Works",
+                "FOB": "FOB - Free on Board",
+                "CIF": "CIF - Coût, Assurance et Fret",
+                "DDP": "DDP - Delivered Duty Paid"
+            }
+        },
+        "packageConfig": {
+            "title": "Configuration du Colis",
+            "description": "Configurez les dimensions, poids et autres détails du colis.",
+            "packageType": "Type de Colis",
+            "grossWeight": "Poids Brut (kg)",
+            "netWeight": "Poids Net (kg)",
+            "dimensions": "Dimensions (cm)",
+            "dimensionsPlaceholder": {
+                "length": "Longueur",
+                "width": "Largeur",
+                "height": "Hauteur"
+            },
+            "specialInstructions": "Instructions Spéciales",
+            "specialInstructionsPlaceholder": "Instructions spéciales de manutention...",
+            "types": {
+                "box": "Boîte",
+                "crate": "Caisse",
+                "pallet": "Palette",
+                "bag": "Sac"
+            }
+        },
         "template": {
             "title": "Sélection de Modèle",
             "description": "Choisissez la mise en page pour votre liste de colisage"
@@ -97,7 +153,40 @@
         "buttons": {
             "cancel": "Annuler",
             "generatePdf": "Générer PDF",
-            "generating": "Génération..."
+            "generating": "Génération...",
+            "save": "Enregistrer",
+            "preview": "Aperçu",
+            "download": "Télécharger",
+            "print": "Imprimer",
+            "sendToMail": "Envoyer par e-mail"
+        },
+        "pdf": {
+            "backToPreview": "Retour à l'Aperçu",
+            "removePackingListPdf": "Supprimer le PDF de la Liste de Colisage",
+            "tooltips": {
+                "previewInvoice": "Aperçu de la facture dans un nouvel onglet",
+                "downloadInvoice": "Télécharger le PDF de la facture",
+                "printInvoice": "Imprimer la facture",
+                "saveInvoice": "Enregistrer la facture sur le site web",
+                "sendInvoiceToMail": "Envoyer le PDF de la facture par e-mail",
+                "previewPackingList": "Aperçu de la liste de colisage dans un nouvel onglet",
+                "downloadPackingList": "Télécharger le PDF de la liste de colisage",
+                "printPackingList": "Imprimer la liste de colisage",
+                "sendPackingListToMail": "Envoyer le PDF de la liste de colisage par e-mail"
+            },
+            "tabs": {
+                "invoice": "Facture",
+                "packingList": "Liste de Colisage",
+                "invoicePdf": "PDF de Facture:",
+                "packingListPdf": "PDF de Liste de Colisage:",
+                "pdfDocuments": "Documents PDF:"
+            }
+        },
+        "logo": {
+            "title": "Logo",
+            "description": "Téléchargez un logo à inclure dans votre liste de colisage",
+            "label": "Logo de l'Entreprise",
+            "placeholder": "Téléchargez le logo de votre entreprise"
         }
     },
     "footer": {

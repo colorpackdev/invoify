@@ -92,7 +92,7 @@
         "newInvoice": "Nova Fatura",
         "generatePdf": "Gerar PDF",
         "pdfView": "Visualização em PDF",
-        "packingList": "Packing List"
+        "packingList": "Lista de Embalagem"
     },
     "packingList": {
         "title": "Gerar Packing List",
@@ -160,7 +160,40 @@
         "buttons": {
             "cancel": "Cancelar",
             "generatePdf": "Gerar PDF",
-            "generating": "Gerando..."
+            "generating": "Gerando...",
+            "save": "Salvar",
+            "preview": "Visualizar",
+            "download": "Baixar",
+            "print": "Imprimir",
+            "sendToMail": "Enviar por email"
+        },
+        "pdf": {
+            "backToPreview": "Voltar à Visualização",
+            "removePackingListPdf": "Remover PDF da Lista de Embalagem",
+            "tooltips": {
+                "previewInvoice": "Visualizar fatura em nova aba",
+                "downloadInvoice": "Baixar PDF da fatura",
+                "printInvoice": "Imprimir fatura",
+                "saveInvoice": "Salvar fatura no site",
+                "sendInvoiceToMail": "Enviar PDF da fatura por email",
+                "previewPackingList": "Visualizar lista de embalagem em nova aba",
+                "downloadPackingList": "Baixar PDF da lista de embalagem",
+                "printPackingList": "Imprimir lista de embalagem",
+                "sendPackingListToMail": "Enviar PDF da lista de embalagem por email"
+            },
+            "tabs": {
+                "invoice": "Fatura",
+                "packingList": "Lista de Embalagem",
+                "invoicePdf": "PDF da Fatura:",
+                "packingListPdf": "PDF da Lista de Embalagem:",
+                "pdfDocuments": "Documentos PDF:"
+            }
+        },
+        "logo": {
+            "title": "Logo",
+            "description": "Envie um logo para incluir na sua lista de embalagem",
+            "label": "Logo da Empresa",
+            "placeholder": "Envie o logo da sua empresa"
         }
     },
     "physicalProduct": {

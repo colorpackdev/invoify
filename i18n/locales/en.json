@@ -153,7 +153,40 @@
         "buttons": {
             "cancel": "Cancel",
             "generatePdf": "Generate PDF",
-            "generating": "Generating..."
+            "generating": "Generating...",
+            "save": "Save",
+            "preview": "Preview",
+            "download": "Download",
+            "print": "Print",
+            "sendToMail": "Send to mail"
+        },
+        "pdf": {
+            "backToPreview": "Back to Live Preview",
+            "removePackingListPdf": "Remove Packing List PDF",
+            "tooltips": {
+                "previewInvoice": "Preview invoice in new tab",
+                "downloadInvoice": "Download invoice PDF",
+                "printInvoice": "Print invoice",
+                "saveInvoice": "Save invoice in website",
+                "sendInvoiceToMail": "Send invoice PDF to mail",
+                "previewPackingList": "Preview packing list in new tab",
+                "downloadPackingList": "Download packing list PDF",
+                "printPackingList": "Print packing list",
+                "sendPackingListToMail": "Send packing list PDF to mail"
+            },
+            "tabs": {
+                "invoice": "Invoice",
+                "packingList": "Packing List",
+                "invoicePdf": "Invoice PDF:",
+                "packingListPdf": "Packing List PDF:",
+                "pdfDocuments": "PDF Documents:"
+            }
+        },
+        "logo": {
+            "title": "Logo",
+            "description": "Upload a logo to include on your packing list",
+            "label": "Company Logo",
+            "placeholder": "Upload your company logo"
         }
     },
     "physicalProduct": {

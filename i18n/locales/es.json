@@ -153,7 +153,40 @@
         "buttons": {
             "cancel": "Cancelar",
             "generatePdf": "Generar PDF",
-            "generating": "Generando..."
+            "generating": "Generando...",
+            "save": "Guardar",
+            "preview": "Vista previa",
+            "download": "Descargar",
+            "print": "Imprimir",
+            "sendToMail": "Enviar por correo"
+        },
+        "pdf": {
+            "backToPreview": "Volver a Vista Previa",
+            "removePackingListPdf": "Eliminar PDF de Lista de Empaque",
+            "tooltips": {
+                "previewInvoice": "Vista previa de factura en nueva pestaña",
+                "downloadInvoice": "Descargar PDF de factura",
+                "printInvoice": "Imprimir factura",
+                "saveInvoice": "Guardar factura en el sitio web",
+                "sendInvoiceToMail": "Enviar PDF de factura por correo",
+                "previewPackingList": "Vista previa de lista de empaque en nueva pestaña",
+                "downloadPackingList": "Descargar PDF de lista de empaque",
+                "printPackingList": "Imprimir lista de empaque",
+                "sendPackingListToMail": "Enviar PDF de lista de empaque por correo"
+            },
+            "tabs": {
+                "invoice": "Factura",
+                "packingList": "Lista de Empaque",
+                "invoicePdf": "PDF de Factura:",
+                "packingListPdf": "PDF de Lista de Empaque:",
+                "pdfDocuments": "Documentos PDF:"
+            }
+        },
+        "logo": {
+            "title": "Logo",
+            "description": "Sube un logo para incluir en tu lista de empaque",
+            "label": "Logo de la Empresa",
+            "placeholder": "Sube el logo de tu empresa"
         }
     },
     "physicalProduct": {
