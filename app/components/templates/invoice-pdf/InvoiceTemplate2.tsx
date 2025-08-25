@@ -243,22 +243,36 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                             {details.paymentTerms}
                         </p>
                     </div>
-                    <div className="my-2">
-                        <span className="font-semibold text-md text-gray-800">
-                            Please send the payment to this address
-                            <p className="text-sm">
-                                Bank: {details.paymentInformation?.bankName}
-                            </p>
-                            <p className="text-sm">
-                                Account name:{" "}
-                                {details.paymentInformation?.accountName}
-                            </p>
-                            <p className="text-sm">
-                                Account no:{" "}
-                                {details.paymentInformation?.accountNumber}
-                            </p>
-                        </span>
-                    </div>
+                    {/* Only show payment details if payment exchange is expected */}
+                    {!details.paymentInformation?.noExchangeRateCoverage && details.paymentInformation?.bankName && (
+                        <div className="my-2">
+                            <span className="font-semibold text-md text-gray-800">
+                                Please send the payment to this address
+                                <p className="text-sm">
+                                    Bank: {details.paymentInformation?.bankName}
+                                </p>
+                                <p className="text-sm">
+                                    Account name:{" "}
+                                    {details.paymentInformation?.accountName}
+                                </p>
+                                <p className="text-sm">
+                                    Account no:{" "}
+                                    {details.paymentInformation?.accountNumber}
+                                </p>
+                            </span>
+                        </div>
+                    )}
+                    
+                    {/* Show record-keeping notice for invoices without payment exchange */}
+                    {details.paymentInformation?.noExchangeRateCoverage && (
+                        <div className="my-2">
+                            <span className="font-semibold text-md text-gray-800">
+                                <p className="text-sm italic text-gray-600">
+                                    This invoice is issued for record-keeping purposes only. No payment exchange is expected.
+                                </p>
+                            </span>
+                        </div>
+                    )}
                 </div>
                 <p className="text-gray-500 text-sm">
                     If you have any questions concerning this invoice, use the

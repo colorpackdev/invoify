@@ -53,7 +53,10 @@
                 "heading": "Informations de paiement",
                 "bankName": "Nom de la banque",
                 "accountName": "Nom du compte",
-                "accountNumber": "Numéro de compte"
+                "accountNumber": "Numéro de compte",
+                "noExchangeRateCoverage": "Aucun échange de paiement attendu",
+                "noExchangeRateCoverageDescription": "Cochez cette option pour les factures émises uniquement à des fins d'archivage, sans paiement réel attendu",
+                "recordKeepingMessage": "Cette facture est émise uniquement à des fins d'archivage. Les informations bancaires ne seront pas affichées dans le PDF généré."
             },
             "summary": {
                 "heading": "Résumé",

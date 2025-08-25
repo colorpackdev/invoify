@@ -53,7 +53,10 @@
                 "heading": "Payment Information",
                 "bankName": "Bank Name",
                 "accountName": "Account Name",
-                "accountNumber": "Account Number"
+                "accountNumber": "Account Number",
+                "noExchangeRateCoverage": "No payment exchange expected",
+                "noExchangeRateCoverageDescription": "Check this option for invoices issued for record-keeping purposes only, without actual payment expected",
+                "recordKeepingMessage": "This invoice is issued for record-keeping purposes only. Bank information will not be displayed on the generated PDF."
             },
             "summary": {
                 "heading": "Summary",

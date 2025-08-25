@@ -134,9 +134,20 @@ const ItemSchema = z.object({
 });
 
 const PaymentInformationSchema = z.object({
-    bankName: fieldValidators.stringMin1,
-    accountName: fieldValidators.stringMin1,
-    accountNumber: fieldValidators.stringMin1,
+    bankName: fieldValidators.stringMin1.optional(),
+    accountName: fieldValidators.stringMin1.optional(),
+    accountNumber: fieldValidators.stringMin1.optional(),
+    noExchangeRateCoverage: z.boolean().optional().default(false),
+}).refine((data) => {
+    // If payment exchange is expected (no exchange rate coverage is false), then bank info is required
+    if (!data.noExchangeRateCoverage) {
+        return data.bankName && data.accountName && data.accountNumber;
+    }
+    // If no payment exchange is expected, bank info is not required
+    return true;
+}, {
+    message: "Bank information is required when payment exchange is expected",
+    path: ["bankName"],
 });
 
 const DiscountDetailsSchema = z.object({

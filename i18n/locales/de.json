@@ -53,7 +53,10 @@
                 "heading": "Zahlungsinformationen",
                 "bankName": "Bank",
                 "accountName": "Kontoinhaber",
-                "accountNumber": "Kontonummer"
+                "accountNumber": "Kontonummer",
+                "noExchangeRateCoverage": "Keine Zahlung erwartet",
+                "noExchangeRateCoverageDescription": "Aktivieren Sie diese Option für Rechnungen, die nur zur Dokumentation ausgestellt werden, ohne erwartete Zahlung",
+                "recordKeepingMessage": "Diese Rechnung dient nur zur Dokumentation. Bankinformationen werden im generierten PDF nicht angezeigt."
             },
             "summary": {
                 "heading": "Zusammenfassung",

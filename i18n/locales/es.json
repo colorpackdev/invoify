@@ -53,7 +53,10 @@
                 "heading": "Información de pago",
                 "bankName": "Nombre del banco",
                 "accountName": "Nombre de la cuenta",
-                "accountNumber": "Número de la cuenta"
+                "accountNumber": "Número de la cuenta",
+                "noExchangeRateCoverage": "No se espera intercambio de pago",
+                "noExchangeRateCoverageDescription": "Marque esta opción para facturas emitidas solo para fines de registro, sin expectativa de pago real",
+                "recordKeepingMessage": "Esta factura se emite solo para fines de registro. La información bancaria no se mostrará en el PDF generado."
             },
             "summary": {
                 "heading": "Sumario",
