@@ -1,7 +1,16 @@
 import React from "react";
 
 // Components
-import { InvoiceLayout } from "@/app/components";
+import { 
+    InvoiceLayout,
+    SmartPdfContainer,
+    InvoiceHeaderContainer,
+    ItemsTableContainer,
+    ItemRowContainer,
+    TotalsContainer,
+    PaymentInfoContainer,
+    SignatureContainer
+} from "@/app/components";
 
 // Helpers
 import { formatNumberWithCommas, isDataUrl } from "@/lib/helpers";
@@ -14,9 +23,14 @@ import { InvoiceType } from "@/types";
 
 const InvoiceTemplate2 = (data: InvoiceType) => {
     const { sender, receiver, details } = data;
+    
+    const estimatedContentHeight = 600 + (details.items.length * 40) + (details.additionalNotes?.length || 0) + (details.paymentTerms?.length || 0);
+
     return (
         <InvoiceLayout data={data}>
-            <div className="flex justify-between">
+            <SmartPdfContainer estimatedContentHeight={estimatedContentHeight}>
+                <InvoiceHeaderContainer>
+                    <div className="flex justify-between">
                 <div>
                     <h2 className="text-2xl md:text-3xl font-semibold text-gray-800">
                         Invoice #
@@ -47,7 +61,8 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                         <br />
                     </address>
                 </div>
-            </div>
+                    </div>
+                </InvoiceHeaderContainer>
 
             <div className="mt-6 grid sm:grid-cols-2 gap-3">
                 <div>
@@ -91,8 +106,8 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                 </div>
             </div>
 
-            <div className="mt-3">
-                <div className="border border-gray-200 p-1 rounded-lg space-y-1">
+                <ItemsTableContainer className="mt-3">
+                    <div className="border border-gray-200 p-1 rounded-lg space-y-1">
                     <div className="hidden sm:grid sm:grid-cols-5">
                         <div className="sm:col-span-2 text-xs font-medium text-gray-500 uppercase">
                             Item
@@ -111,7 +126,7 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                     <div className="grid grid-cols-3 sm:grid-cols-5 gap-y-1">
                         {details.items.map((item, index) => (
                             <React.Fragment key={index}>
-                                <div className="col-span-full sm:col-span-2 border-b border-gray-300">
+                                <div className="col-span-full sm:col-span-2 border-b border-gray-300 print:break-inside-avoid">
                                     <p className="font-medium text-gray-800">
                                         {item.name}
                                     </p>
@@ -119,17 +134,17 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                                         {item.description}
                                     </p>
                                 </div>
-                                <div className="border-b border-gray-300">
+                                <div className="border-b border-gray-300 print:break-inside-avoid">
                                     <p className="text-gray-800">
                                         {item.quantity}
                                     </p>
                                 </div>
-                                <div className="border-b border-gray-300">
+                                <div className="border-b border-gray-300 print:break-inside-avoid">
                                     <p className="text-gray-800">
                                         {item.unitPrice} {details.currency}
                                     </p>
                                 </div>
-                                <div className="border-b border-gray-300">
+                                <div className="border-b border-gray-300 print:break-inside-avoid">
                                     <p className="sm:text-right text-gray-800">
                                         {item.total} {details.currency}
                                     </p>
@@ -138,11 +153,11 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                         ))}
                     </div>
                     <div className="sm:hidden border-b border-gray-200"></div>
-                </div>
-            </div>
+                    </div>
+                </ItemsTableContainer>
 
-            <div className="mt-2 flex sm:justify-end">
-                <div className="w-full max-w-2xl sm:text-right space-y-2">
+                <TotalsContainer className="mt-2 flex sm:justify-end">
+                    <div className="w-full max-w-2xl sm:text-right space-y-2">
                     <div className="grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2">
                         <dl className="grid sm:grid-cols-5 gap-x-3">
                             <dt className="col-span-3 font-semibold text-gray-800">
@@ -221,12 +236,12 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                                 </dd>
                             </dl>
                         )}
+                        </div>
                     </div>
-                </div>
-            </div>
+                </TotalsContainer>
 
-            <div>
-                <div className="my-4">
+                <PaymentInfoContainer>
+                    <div className="my-4">
                     <div className="my-2">
                         <p className="font-semibold text-blue-600">
                             Additional notes:
@@ -285,35 +300,40 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                     <p className="block text-sm font-medium text-gray-800">
                         {sender.phone}
                     </p>
-                </div>
-            </div>
+                    </div>
+                </PaymentInfoContainer>
 
-            {/* Signature */}
-            {details?.signature?.data && isDataUrl(details?.signature?.data) ? (
-                <div className="mt-6">
-                    <p className="font-semibold text-gray-800">Signature:</p>
-                    <img
-                        src={details.signature.data}
-                        width={120}
-                        height={60}
-                        alt={`Signature of ${sender.name}`}
-                    />
-                </div>
-            ) : details.signature?.data ? (
-                <div className="mt-6">
-                    <p className="text-gray-800">Signature:</p>
-                    <p
-                        style={{
-                            fontSize: 30,
-                            fontWeight: 400,
-                            fontFamily: `${details.signature.fontFamily}, cursive`,
-                            color: "black",
-                        }}
-                    >
-                        {details.signature.data}
-                    </p>
-                </div>
-            ) : null}
+                {/* Signature */}
+                {details?.signature?.data && (
+                    <SignatureContainer className="mt-6">
+                        {isDataUrl(details.signature.data) ? (
+                            <>
+                                <p className="font-semibold text-gray-800">Signature:</p>
+                                <img
+                                    src={details.signature.data}
+                                    width={120}
+                                    height={60}
+                                    alt={`Signature of ${sender.name}`}
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <p className="text-gray-800">Signature:</p>
+                                <p
+                                    style={{
+                                        fontSize: 30,
+                                        fontWeight: 400,
+                                        fontFamily: `${details.signature.fontFamily}, cursive`,
+                                        color: "black",
+                                    }}
+                                >
+                                    {details.signature.data}
+                                </p>
+                            </>
+                        )}
+                    </SignatureContainer>
+                )}
+            </SmartPdfContainer>
         </InvoiceLayout>
     );
 };

@@ -40,6 +40,16 @@ import LivePreview from "./invoice/actions/LivePreview";
 import FinalPdf from "./invoice/actions/FinalPdf";
 import TabbedPdfViewer from "./invoice/actions/TabbedPdfViewer";
 
+// * PDF Components
+import SmartPdfContainer, { 
+    InvoiceHeaderContainer, 
+    ItemsTableContainer, 
+    ItemRowContainer, 
+    TotalsContainer, 
+    PaymentInfoContainer, 
+    SignatureContainer 
+} from "./pdf/SmartPdfContainer";
+
 // * Reusable components
 // Form fields
 import CurrencySelector from "./reusables/form-fields/CurrencySelector";
@@ -159,5 +169,12 @@ export {
     PackingListTemplate2,
     PackingListTemplateSelector,
     SendPdfEmail,
+    SmartPdfContainer,
+    InvoiceHeaderContainer,
+    ItemsTableContainer,
+    ItemRowContainer,
+    TotalsContainer,
+    PaymentInfoContainer,
+    SignatureContainer,
     DevDebug,
 };

@@ -2,6 +2,14 @@ import React from "react";
 
 // Components
 import PackingListLayout from "./PackingListLayout";
+import { 
+    SmartPdfContainer,
+    InvoiceHeaderContainer,
+    ItemsTableContainer,
+    ItemRowContainer,
+    TotalsContainer,
+    PaymentInfoContainer
+} from "@/app/components";
 
 // Helpers
 import { formatNumberWithCommas } from "@/lib/helpers";
@@ -20,9 +28,13 @@ const PackingListTemplate2 = (data: PackingListType) => {
         return (length * width * height).toFixed(2);
     };
 
+    const estimatedContentHeight = 800 + (packages.length * 200) + packages.reduce((acc, pkg) => acc + (pkg.items.length * 30), 0);
+
     return (
         <PackingListLayout data={data}>
-            <div className="flex justify-between">
+            <SmartPdfContainer estimatedContentHeight={estimatedContentHeight}>
+                <InvoiceHeaderContainer>
+                    <div className="flex justify-between">
                 <div>
                     <h2 className="text-2xl md:text-3xl font-semibold text-gray-800">
                         Packing List #
@@ -53,7 +65,8 @@ const PackingListTemplate2 = (data: PackingListType) => {
                         <br />
                     </address>
                 </div>
-            </div>
+                    </div>
+                </InvoiceHeaderContainer>
 
             <div className="mt-6 grid sm:grid-cols-2 gap-3">
                 <div>
@@ -115,9 +128,9 @@ const PackingListTemplate2 = (data: PackingListType) => {
                 </div>
             )}
 
-            {/* Package Details */}
-            <div className="mt-6">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Package Details</h3>
+                {/* Package Details */}
+                <ItemsTableContainer className="mt-6">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-4">Package Details</h3>
                 
                 {packages.map((pkg, index) => (
                     <div key={index} className="mb-6 border border-gray-200 rounded-lg p-4">
@@ -170,7 +183,7 @@ const PackingListTemplate2 = (data: PackingListType) => {
                             <div className="grid grid-cols-3 sm:grid-cols-6 gap-y-1">
                                 {pkg.items.map((item, itemIndex) => (
                                     <React.Fragment key={itemIndex}>
-                                        <div className="col-span-full sm:col-span-2 border-b border-gray-300 p-3">
+                                        <div className="col-span-full sm:col-span-2 border-b border-gray-300 p-3 print:break-inside-avoid">
                                             <p className="font-medium text-gray-800">
                                                 {item.itemName}
                                             </p>
@@ -185,22 +198,22 @@ const PackingListTemplate2 = (data: PackingListType) => {
                                                 </p>
                                             )}
                                         </div>
-                                        <div className="border-b border-gray-300 p-3">
+                                        <div className="border-b border-gray-300 p-3 print:break-inside-avoid">
                                             <p className="text-center text-gray-800">
                                                 {formatNumberWithCommas(item.quantity)}
                                             </p>
                                         </div>
-                                        <div className="border-b border-gray-300 p-3">
+                                        <div className="border-b border-gray-300 p-3 print:break-inside-avoid">
                                             <p className="text-center text-gray-800">
                                                 {formatNumberWithCommas(item.unitWeight)} {pkg.weightUnit}
                                             </p>
                                         </div>
-                                        <div className="border-b border-gray-300 p-3">
+                                        <div className="border-b border-gray-300 p-3 print:break-inside-avoid">
                                             <p className="text-center text-gray-800">
                                                 {formatNumberWithCommas(item.totalWeight)} {pkg.weightUnit}
                                             </p>
                                         </div>
-                                        <div className="border-b border-gray-300 p-3">
+                                        <div className="border-b border-gray-300 p-3 print:break-inside-avoid">
                                             <p className="text-center text-gray-800">
                                                 {item.hsCode || "—"}
                                             </p>
@@ -217,11 +230,11 @@ const PackingListTemplate2 = (data: PackingListType) => {
                         )}
                     </div>
                 ))}
-            </div>
+                </ItemsTableContainer>
 
-            {/* Summary */}
-            <div className="mt-6 flex sm:justify-end">
-                <div className="w-full max-w-2xl sm:text-right space-y-2">
+                {/* Summary */}
+                <TotalsContainer className="mt-6 flex sm:justify-end">
+                    <div className="w-full max-w-2xl sm:text-right space-y-2">
                     <h3 className="text-lg font-semibold text-gray-800 mb-3">Summary</h3>
                     <div className="grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2">
                         <dl className="grid sm:grid-cols-5 gap-x-3">
@@ -258,9 +271,9 @@ const PackingListTemplate2 = (data: PackingListType) => {
                                 </dd>
                             </dl>
                         )}
+                        </div>
                     </div>
-                </div>
-            </div>
+                </TotalsContainer>
 
             {/* Notes and Instructions */}
             <div className="mt-6">
@@ -302,8 +315,8 @@ const PackingListTemplate2 = (data: PackingListType) => {
                 )}
             </div>
 
-            {/* Contact Information */}
-            <div className="mt-6">
+                {/* Contact Information */}
+                <PaymentInfoContainer className="mt-6">
                 <p className="text-gray-500 text-sm mb-2">
                     For questions regarding this shipment, use the following contact information:
                 </p>
@@ -321,7 +334,8 @@ const PackingListTemplate2 = (data: PackingListType) => {
                         <p className="mt-1">This is an official packing list for customs and shipping purposes</p>
                     </div>
                 </div>
-            </div>
+                </PaymentInfoContainer>
+            </SmartPdfContainer>
         </PackingListLayout>
     );
 };

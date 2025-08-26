@@ -134,17 +134,21 @@ const ItemSchema = z.object({
 });
 
 const PaymentInformationSchema = z.object({
-    bankName: fieldValidators.stringMin1.optional(),
-    accountName: fieldValidators.stringMin1.optional(),
-    accountNumber: fieldValidators.stringMin1.optional(),
+    bankName: z.string().optional(),
+    accountName: z.string().optional(), 
+    accountNumber: z.string().optional(),
     noExchangeRateCoverage: z.boolean().optional().default(false),
 }).refine((data) => {
-    // If payment exchange is expected (no exchange rate coverage is false), then bank info is required
-    if (!data.noExchangeRateCoverage) {
-        return data.bankName && data.accountName && data.accountNumber;
+    // If no payment exchange is expected, validation passes regardless of bank info
+    if (data.noExchangeRateCoverage) {
+        return true;
     }
-    // If no payment exchange is expected, bank info is not required
-    return true;
+    // If payment exchange is expected, then all bank fields must be filled
+    const bankName = data.bankName?.trim() || '';
+    const accountName = data.accountName?.trim() || '';
+    const accountNumber = data.accountNumber?.trim() || '';
+    
+    return bankName.length > 0 && accountName.length > 0 && accountNumber.length > 0;
 }, {
     message: "Bank information is required when payment exchange is expected",
     path: ["bankName"],

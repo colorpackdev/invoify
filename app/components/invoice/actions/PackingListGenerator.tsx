@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from "react";
 
 // RHF
-import { useFormContext, FormProvider, useForm, Controller } from "react-hook-form";
+import { useFormContext, FormProvider, useForm, Controller, useWatch } from "react-hook-form";
 
 // ShadCn
 import { Button } from "@/components/ui/button";
@@ -88,6 +88,25 @@ export default function PackingListGenerator() {
         }
     }, []);
 
+    // Watch for changes in invoice items to reset packing list selection when needed
+    const currentInvoiceData = useWatch({ 
+        name: "details.items",
+        defaultValue: []
+    });
+
+    // Reset selected items when invoice items change (add/remove/edit items)
+    React.useEffect(() => {
+        if (currentInvoiceData && currentInvoiceData.length >= 0) {
+            // Clear selection when items change to avoid phantom data
+            setSelectedItems([]);
+            setPackingListData(null);
+            // Reset form when items change
+            packingListForm.reset({
+                pdfTemplate: 1,
+            });
+        }
+    }, [currentInvoiceData, packingListForm]);
+
     const handleGeneratePackingList = () => {
         // Get fresh data when opening the modal
         const currentInvoiceData = getValues();
@@ -102,18 +121,53 @@ export default function PackingListGenerator() {
         );
 
         if (existingSavedList) {
-            // Load saved packing list data
-            packingListForm.reset({
-                ...existingSavedList,
-                pdfTemplate: existingSavedList.pdfTemplate || 1,
-                logo: existingSavedList.logo || currentInvoiceData.details.invoiceLogo, // Use saved logo or fallback to invoice logo
-            });
+            // Validate that the saved packing list is for the current invoice
+            const isValidForCurrentInvoice = existingSavedList._sourceInvoiceNumber === currentInvoiceData.details.invoiceNumber;
             
-            // Restore selected items if they exist
-            if (existingSavedList._selectedItems) {
-                setSelectedItems(existingSavedList._selectedItems);
+            if (isValidForCurrentInvoice && existingSavedList._selectedItemsData) {
+                // Validate that the saved items still match the current invoice items
+                const validSelectedItems: string[] = [];
+                
+                existingSavedList._selectedItemsData.forEach((savedItem: any) => {
+                    const currentItem = currentInvoiceData.details.items[parseInt(savedItem.index)];
+                    if (currentItem && 
+                        currentItem.name === savedItem.name && 
+                        currentItem.description === savedItem.description &&
+                        currentItem.quantity === savedItem.quantity) {
+                        validSelectedItems.push(savedItem.index);
+                    }
+                });
+                
+                if (validSelectedItems.length > 0) {
+                    // Load saved packing list data
+                    packingListForm.reset({
+                        ...existingSavedList,
+                        pdfTemplate: existingSavedList.pdfTemplate || 1,
+                        logo: existingSavedList.logo || currentInvoiceData.details.invoiceLogo,
+                    });
+                    
+                    setSelectedItems(validSelectedItems);
+                } else {
+                    // Saved items don't match current invoice, start fresh
+                    packingListForm.reset({
+                        ...generatedData,
+                        pdfTemplate: 1,
+                        logo: currentInvoiceData.details.invoiceLogo,
+                    });
+                    
+                    const suggestedItems = currentInvoiceData.details.items
+                        .map((_, index) => index.toString())
+                        .filter((_, index) => classifyItem(currentInvoiceData.details.items[index]) === 'physical');
+                    setSelectedItems(suggestedItems);
+                }
             } else {
-                // Fall back to physical items if no selection was saved
+                // Saved packing list is for a different invoice, start fresh
+                packingListForm.reset({
+                    ...generatedData,
+                    pdfTemplate: 1,
+                    logo: currentInvoiceData.details.invoiceLogo,
+                });
+                
                 const suggestedItems = currentInvoiceData.details.items
                     .map((_, index) => index.toString())
                     .filter((_, index) => classifyItem(currentInvoiceData.details.items[index]) === 'physical');
@@ -212,8 +266,16 @@ export default function PackingListGenerator() {
             ...basePackingListData,
             ...formData,
             packingListDate: updatedDate,
-            // Store the selected item indices so we can restore them when loading
-            _selectedItems: selectedItems,
+            // Store actual selected item data with their names/descriptions for validation
+            _selectedItemsData: selectedInvoiceItems.map((item, index) => ({
+                index: selectedItems[index],
+                name: item.name,
+                description: item.description,
+                quantity: item.quantity,
+                unitPrice: item.unitPrice
+            })),
+            // Also store invoice number as key for validation
+            _sourceInvoiceNumber: currentInvoiceData.details.invoiceNumber,
         };
 
         // Get existing packing lists from localStorage

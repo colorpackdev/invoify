@@ -2,6 +2,14 @@ import React from "react";
 
 // Components
 import PackingListLayout from "./PackingListLayout";
+import { 
+    SmartPdfContainer,
+    InvoiceHeaderContainer,
+    ItemsTableContainer,
+    ItemRowContainer,
+    TotalsContainer,
+    PaymentInfoContainer
+} from "@/app/components";
 
 // Helpers
 import { formatNumberWithCommas } from "@/lib/helpers";
@@ -20,9 +28,13 @@ const PackingListTemplate1 = (data: PackingListType) => {
         return (length * width * height).toFixed(2);
     };
 
+    const estimatedContentHeight = 800 + (packages.length * 200) + packages.reduce((acc, pkg) => acc + (pkg.items.length * 30), 0);
+
     return (
         <PackingListLayout data={data}>
-            <div className='flex justify-between'>
+            <SmartPdfContainer estimatedContentHeight={estimatedContentHeight}>
+                <InvoiceHeaderContainer>
+                    <div className='flex justify-between'>
                 <div>
                     {data.logo && (
                         <img
@@ -46,7 +58,8 @@ const PackingListTemplate1 = (data: PackingListType) => {
                         <br />
                     </address>
                 </div>
-            </div>
+                    </div>
+                </InvoiceHeaderContainer>
 
             <div className='mt-6 grid sm:grid-cols-2 gap-3'>
                 <div>
@@ -96,12 +109,12 @@ const PackingListTemplate1 = (data: PackingListType) => {
                 </div>
             )}
 
-            {/* Package Details */}
-            <div className='mt-6'>
-                <h3 className='text-lg font-semibold text-gray-800 mb-4'>Package Details</h3>
-                
-                {packages.map((pkg, index) => (
-                    <div key={index} className='mb-6 border border-gray-200 rounded-lg overflow-hidden'>
+                {/* Package Details */}
+                <ItemsTableContainer className='mt-6'>
+                    <h3 className='text-lg font-semibold text-gray-800 mb-4'>Package Details</h3>
+                    
+                    {packages.map((pkg, index) => (
+                        <div key={index} className='mb-6 border border-gray-200 rounded-lg overflow-hidden'>
                         <div className='bg-gray-50 px-4 py-3 border-b border-gray-200'>
                             <div className='flex justify-between items-center'>
                                 <h4 className='font-semibold text-gray-800 text-lg'>
@@ -135,7 +148,7 @@ const PackingListTemplate1 = (data: PackingListType) => {
                                 <div className='grid grid-cols-3 sm:grid-cols-6 gap-y-1'>
                                     {pkg.items.map((item, itemIndex) => (
                                         <React.Fragment key={itemIndex}>
-                                            <div className='col-span-full sm:col-span-2 border-b border-gray-300 p-2'>
+                                            <div className='col-span-full sm:col-span-2 border-b border-gray-300 p-2 print:break-inside-avoid'>
                                                 <p className='font-medium text-gray-800'>{item.itemName}</p>
                                                 {item.description && (
                                                     <p className='text-xs text-gray-600 mt-1'>{item.description}</p>
@@ -144,16 +157,16 @@ const PackingListTemplate1 = (data: PackingListType) => {
                                                     <p className='text-xs text-gray-500 mt-1'>Origin: {item.countryOfOrigin}</p>
                                                 )}
                                             </div>
-                                            <div className='border-b border-gray-300 p-2 text-center'>
+                                            <div className='border-b border-gray-300 p-2 text-center print:break-inside-avoid'>
                                                 <p className='text-gray-800'>{formatNumberWithCommas(item.quantity)}</p>
                                             </div>
-                                            <div className='border-b border-gray-300 p-2 text-center'>
+                                            <div className='border-b border-gray-300 p-2 text-center print:break-inside-avoid'>
                                                 <p className='text-gray-800'>{formatNumberWithCommas(item.unitWeight)} {pkg.weightUnit}</p>
                                             </div>
-                                            <div className='border-b border-gray-300 p-2 text-center'>
+                                            <div className='border-b border-gray-300 p-2 text-center print:break-inside-avoid'>
                                                 <p className='text-gray-800'>{formatNumberWithCommas(item.totalWeight)} {pkg.weightUnit}</p>
                                             </div>
-                                            <div className='border-b border-gray-300 p-2 text-center'>
+                                            <div className='border-b border-gray-300 p-2 text-center print:break-inside-avoid'>
                                                 <p className='text-gray-800'>{item.hsCode || "—"}</p>
                                             </div>
                                         </React.Fragment>
@@ -169,13 +182,13 @@ const PackingListTemplate1 = (data: PackingListType) => {
                                 </div>
                             </div>
                         )}
-                    </div>
-                ))}
-            </div>
+                        </div>
+                    ))}
+                </ItemsTableContainer>
 
-            {/* Summary */}
-            <div className='mt-6 flex sm:justify-end'>
-                <div className='sm:text-right space-y-2 bg-gray-50 p-4 rounded-lg border border-gray-200'>
+                {/* Summary */}
+                <TotalsContainer className='mt-6 flex sm:justify-end'>
+                    <div className='sm:text-right space-y-2 bg-gray-50 p-4 rounded-lg border border-gray-200'>
                     <h3 className='text-lg font-semibold text-gray-800 mb-3'>Summary</h3>
                     <div className='grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2'>
                         <dl className='grid sm:grid-cols-5 gap-x-3'>
@@ -196,9 +209,9 @@ const PackingListTemplate1 = (data: PackingListType) => {
                                 <dd className='col-span-2 text-gray-500'>{formatNumberWithCommas(totals.totalVolume)} {totals.volumeUnit}</dd>
                             </dl>
                         )}
+                        </div>
                     </div>
-                </div>
-            </div>
+                </TotalsContainer>
 
             {/* Special Instructions */}
             {data.specialInstructions && (
@@ -235,8 +248,8 @@ const PackingListTemplate1 = (data: PackingListType) => {
                 </div>
             )}
 
-            {/* Contact Information */}
-            <div className='mt-6'>
+                {/* Contact Information */}
+                <PaymentInfoContainer className='mt-6'>
                 <p className='text-gray-500 text-sm mb-2'>
                     For questions regarding this shipment, contact:
                 </p>
@@ -250,7 +263,8 @@ const PackingListTemplate1 = (data: PackingListType) => {
                         <p className='mt-1'>This is an official packing list for customs and shipping purposes</p>
                     </div>
                 </div>
-            </div>
+                </PaymentInfoContainer>
+            </SmartPdfContainer>
         </PackingListLayout>
     );
 };

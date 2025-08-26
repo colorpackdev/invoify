@@ -53,7 +53,7 @@ export async function generatePackingListPdfService(req: NextRequest) {
                 const puppeteer = await import("puppeteer");
                 browser = await puppeteer.launch({
                     args: ["--no-sandbox", "--disable-setuid-sandbox"],
-                    headless: "new",
+                    headless: true,
                 });
             }
         } catch (chromiumError) {
@@ -63,7 +63,7 @@ export async function generatePackingListPdfService(req: NextRequest) {
                 const puppeteer = await import("puppeteer");
                 browser = await puppeteer.launch({
                     args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
-                    headless: "new",
+                    headless: true,
                 });
             } catch (fallbackError) {
                 console.log("Fallback strategy failed, trying core without chromium:", fallbackError);

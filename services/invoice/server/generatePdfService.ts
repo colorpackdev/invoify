@@ -48,7 +48,7 @@ export async function generatePdfService(req: NextRequest) {
 				const puppeteer = await import("puppeteer");
 				browser = await puppeteer.launch({
 					args: ["--no-sandbox", "--disable-setuid-sandbox"],
-					headless: "new",
+					headless: true,
 				});
 			}
 		} catch (chromiumError) {
@@ -58,7 +58,7 @@ export async function generatePdfService(req: NextRequest) {
 				const puppeteer = await import("puppeteer");
 				browser = await puppeteer.launch({
 					args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
-					headless: "new",
+					headless: true,
 				});
 			} catch (fallbackError) {
 				console.log("Fallback strategy failed, trying core without chromium:", fallbackError);
@@ -86,11 +86,11 @@ export async function generatePdfService(req: NextRequest) {
 			url: TAILWIND_CDN,
 		});
 
-		const pdf: Buffer = await page.pdf({
+		const pdf = await page.pdf({
 			format: "a4",
 			printBackground: true,
 			preferCSSPageSize: true,
-		});
+		}) as Buffer;
 
 		return new NextResponse(new Blob([new Uint8Array(pdf)], { type: "application/pdf" }), {
 			headers: {
