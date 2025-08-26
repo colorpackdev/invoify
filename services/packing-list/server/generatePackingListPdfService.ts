@@ -66,15 +66,44 @@ export async function generatePackingListPdfService(req: NextRequest) {
                     headless: true,
                 });
             } catch (fallbackError) {
-                console.log("Fallback strategy failed, trying core without chromium:", fallbackError);
-                // Strategy 4: Last resort - puppeteer-core without chromium.executablePath
-                const puppeteer = await import("puppeteer-core");
-                browser = await puppeteer.launch({
-                    args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
-                    headless: true,
-                    ignoreHTTPSErrors: true,
-                });
+                console.log("Fallback strategy failed, trying system Chrome:", fallbackError);
+                // Strategy 4: Try system Chrome paths
+                const systemChromePaths = [
+                    '/usr/bin/google-chrome-stable',
+                    '/usr/bin/google-chrome',
+                    '/usr/bin/chromium-browser',
+                    '/usr/bin/chromium',
+                    '/snap/bin/chromium',
+                    process.env.CHROME_EXECUTABLE_PATH
+                ].filter(Boolean);
+
+                let systemBrowser = null;
+                for (const chromePath of systemChromePaths) {
+                    try {
+                        const puppeteer = await import("puppeteer-core");
+                        systemBrowser = await puppeteer.launch({
+                            args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
+                            executablePath: chromePath,
+                            headless: true,
+                            ignoreHTTPSErrors: true,
+                        });
+                        browser = systemBrowser;
+                        console.log(`Successfully launched Chrome from: ${chromePath}`);
+                        break;
+                    } catch (systemError) {
+                        console.log(`Failed to launch Chrome from ${chromePath}:`, systemError instanceof Error ? systemError.message : String(systemError));
+                        continue;
+                    }
+                }
+
+                if (!browser) {
+                    throw new Error("All browser launch strategies failed. Please ensure Chrome/Chromium is installed on the system.");
+                }
             }
+        }
+
+        if (!browser) {
+            throw new Error("Failed to launch browser");
         }
 
         page = await browser.newPage();
@@ -107,7 +136,21 @@ export async function generatePackingListPdfService(req: NextRequest) {
             { status: 500 }
         );
     } finally {
-        if (page) await page.close();
-        if (browser) await browser.close();
+        if (page) {
+            try {
+                await page.close();
+            } catch (e) {
+                console.error("Error closing page:", e);
+            }
+        }
+        if (browser) {
+            try {
+                const pages = await browser.pages();
+                await Promise.all(pages.map((p) => p.close()));
+                await browser.close();
+            } catch (e) {
+                console.error("Error closing browser:", e);
+            }
+        }
     }
 }
