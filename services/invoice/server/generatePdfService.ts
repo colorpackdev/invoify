@@ -69,30 +69,50 @@ export async function generatePdfService(req: NextRequest) {
 					'/usr/bin/chromium-browser',
 					'/usr/bin/chromium',
 					'/snap/bin/chromium',
+					'/opt/google/chrome/chrome',
+					'/usr/local/bin/chrome',
+					'/usr/bin/chrome',
 					process.env.CHROME_EXECUTABLE_PATH
 				].filter(Boolean);
 
-				let systemBrowser = null;
+				console.log('Trying system Chrome paths:', systemChromePaths);
+				
 				for (const chromePath of systemChromePaths) {
 					try {
+						console.log(`Attempting to launch Chrome from: ${chromePath}`);
 						const puppeteer = await import("puppeteer-core");
-						systemBrowser = await puppeteer.launch({
-							args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"],
+						browser = await puppeteer.launch({
+							args: [
+								"--no-sandbox", 
+								"--disable-setuid-sandbox", 
+								"--disable-dev-shm-usage",
+								"--disable-extensions",
+								"--disable-plugins",
+								"--disable-default-apps"
+							],
 							executablePath: chromePath,
 							headless: true,
 							ignoreHTTPSErrors: true,
 						});
-						browser = systemBrowser;
-						console.log(`Successfully launched Chrome from: ${chromePath}`);
+						console.log(`✅ Successfully launched Chrome from: ${chromePath}`);
 						break;
 					} catch (systemError) {
-						console.log(`Failed to launch Chrome from ${chromePath}:`, systemError instanceof Error ? systemError.message : String(systemError));
+						const errorMessage = systemError instanceof Error ? systemError.message : String(systemError);
+						console.log(`❌ Failed to launch Chrome from ${chromePath}: ${errorMessage}`);
 						continue;
 					}
 				}
 
 				if (!browser) {
-					throw new Error("All browser launch strategies failed. Please ensure Chrome/Chromium is installed on the system.");
+					console.error("❌ All browser launch strategies failed. Diagnostics:");
+					console.error("1. @sparticuz/chromium failed - bundled Chrome not found");
+					console.error("2. Local puppeteer failed - missing system libraries");
+					console.error("3. System Chrome paths failed - Chrome not installed or not accessible");
+					console.error("\n🔧 To fix this issue, install Chrome/Chromium:");
+					console.error("Ubuntu/Debian: sudo apt-get install -y chromium-browser");
+					console.error("CentOS/RHEL: sudo yum install -y chromium");
+					console.error("Or set CHROME_EXECUTABLE_PATH environment variable");
+					throw new Error("All browser launch strategies failed. Please install Chrome/Chromium or set CHROME_EXECUTABLE_PATH environment variable.");
 				}
 			}
 		}

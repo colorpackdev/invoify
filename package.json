@@ -7,7 +7,9 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
-        "analyze": "cross-env ANALYZE=true next build"
+        "analyze": "cross-env ANALYZE=true next build",
+        "check-chrome": "node scripts/check-chrome.js",
+        "install-chrome": "bash scripts/install-chrome-deps.sh"
     },
     "dependencies": {
         "@dnd-kit/core": "^6.1.0",
