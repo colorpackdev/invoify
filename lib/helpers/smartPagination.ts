@@ -99,16 +99,19 @@ export const PAGINATION_CSS_VARS = `
     :root {
         --page-height: 29.7cm;
         --page-width: 21cm;
-        --page-margin: 1.5cm;
-        --content-height: calc(var(--page-height) - 2 * var(--page-margin));
-        --content-width: calc(var(--page-width) - 2 * var(--page-margin));
+        --page-margin-top: 1.5cm;
+        --page-margin-bottom: 1.5cm;
+        --page-margin-left: 1.5cm;
+        --page-margin-right: 1.5cm;
+        --content-height: calc(var(--page-height) - var(--page-margin-top) - var(--page-margin-bottom));
+        --content-width: calc(var(--page-width) - var(--page-margin-left) - var(--page-margin-right));
         --min-second-page-content: 5%;
     }
     
     .smart-page-container {
         max-width: var(--content-width);
         margin: 0 auto;
-        padding: var(--page-margin);
+        padding: var(--page-margin-top) var(--page-margin-right) var(--page-margin-bottom) var(--page-margin-left);
     }
     
     .auto-resize-container {
@@ -117,33 +120,64 @@ export const PAGINATION_CSS_VARS = `
     
     /* Enhanced print styles for better pagination */
     @media print {
+        @page {
+            size: A4;
+            margin-top: var(--page-margin-top);
+            margin-bottom: var(--page-margin-bottom);  
+            margin-left: var(--page-margin-left);
+            margin-right: var(--page-margin-right);
+            
+            /* Ensure consistent margins on all pages */
+            @top-left { margin: 0; }
+            @top-center { margin: 0; }
+            @top-right { margin: 0; }
+            @bottom-left { margin: 0; }
+            @bottom-center { margin: 0; }
+            @bottom-right { margin: 0; }
+        }
+        
+        /* Override container padding as @page margins handle this */
         .smart-page-container {
             padding: 0;
             margin: 0;
             max-width: none;
         }
         
-        /* Ensure critical sections stay together */
+        /* Critical content blocks that must stay together */
+        .details-block,
         .payment-section,
         .totals-section,
-        .signature-section {
-            break-inside: avoid;
-            break-before: avoid-page;
+        .signature-section,
+        .notes-section,
+        .additional-notes,
+        .payment-terms,
+        .special-instructions,
+        .compliance-info {
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
+            orphans: 3;
+            widows: 3;
         }
         
         /* Keep invoice header together */
         .invoice-header {
             break-after: avoid;
+            page-break-after: avoid;
         }
         
         /* Keep item groups together when possible */
-        .item-group {
+        .item-group,
+        .package-group {
             break-inside: avoid;
+            page-break-inside: avoid;
+            orphans: 2;
+            widows: 2;
         }
         
-        /* Prevent orphaned single lines */
+        /* Individual item rows should stay together */
         .item-row {
-            break-inside: avoid;
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
             orphans: 2;
             widows: 2;
         }
@@ -155,10 +189,37 @@ export const PAGINATION_CSS_VARS = `
         
         thead {
             break-after: avoid;
+            page-break-after: avoid;
         }
         
         tbody tr {
             break-inside: avoid;
+            page-break-inside: avoid;
+        }
+        
+        /* Specific elements that should be kept with following content */
+        .keep-with-next {
+            break-after: avoid;
+            page-break-after: avoid;
+        }
+        
+        /* Specific elements that should be kept with previous content */  
+        .keep-with-previous {
+            break-before: avoid;
+            page-break-before: avoid;
+        }
+        
+        /* Force page break before specific elements when needed */
+        .page-break-before {
+            break-before: page;
+            page-break-before: always;
+        }
+        
+        /* Prevent page breaks for small content blocks */
+        .no-break-small {
+            break-inside: avoid;
+            page-break-inside: avoid;
+            min-height: 2em;
         }
     }
 `;

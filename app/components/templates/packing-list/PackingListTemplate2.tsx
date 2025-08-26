@@ -278,7 +278,7 @@ const PackingListTemplate2 = (data: PackingListType) => {
             {/* Notes and Instructions */}
             <div className="mt-6">
                 {data.specialInstructions && (
-                    <div className="mb-4">
+                    <div className="mb-4 special-instructions details-block">
                         <h3 className="text-lg font-semibold text-gray-800 mb-2">
                             Special Instructions:
                         </h3>
@@ -289,7 +289,7 @@ const PackingListTemplate2 = (data: PackingListType) => {
                 )}
                 
                 {data.notes && (
-                    <div className="mb-4">
+                    <div className="mb-4 additional-notes details-block">
                         <h3 className="text-lg font-semibold text-gray-800 mb-2">
                             Additional Notes:
                         </h3>
@@ -301,7 +301,7 @@ const PackingListTemplate2 = (data: PackingListType) => {
 
                 {/* Compliance Information */}
                 {(data.certificateOfOrigin || data.exportLicense) && (
-                    <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded">
+                    <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded compliance-info details-block">
                         <h3 className="text-lg font-semibold text-green-800 mb-2">Compliance & Certification</h3>
                         <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
                             {data.certificateOfOrigin && (

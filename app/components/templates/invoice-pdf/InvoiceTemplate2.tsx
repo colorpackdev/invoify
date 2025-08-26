@@ -242,7 +242,7 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
 
                 <PaymentInfoContainer>
                     <div className="my-4">
-                    <div className="my-2">
+                    <div className="my-2 additional-notes details-block">
                         <p className="font-semibold text-blue-600">
                             Additional notes:
                         </p>
@@ -250,7 +250,7 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                             {details.additionalNotes}
                         </p>
                     </div>
-                    <div className="my-2">
+                    <div className="my-2 payment-terms details-block">
                         <p className="font-semibold text-blue-600">
                             Payment terms:
                         </p>
@@ -260,7 +260,7 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                     </div>
                     {/* Only show payment details if payment exchange is expected */}
                     {!details.paymentInformation?.noExchangeRateCoverage && details.paymentInformation?.bankName && (
-                        <div className="my-2">
+                        <div className="my-2 payment-info details-block">
                             <span className="font-semibold text-md text-gray-800">
                                 Please send the payment to this address
                                 <p className="text-sm">
@@ -280,7 +280,7 @@ const InvoiceTemplate2 = (data: InvoiceType) => {
                     
                     {/* Show record-keeping notice for invoices without payment exchange */}
                     {details.paymentInformation?.noExchangeRateCoverage && (
-                        <div className="my-2">
+                        <div className="my-2 compliance-info details-block">
                             <span className="font-semibold text-md text-gray-800">
                                 <p className="text-sm italic text-gray-600">
                                     This invoice is issued for record-keeping purposes only. No payment exchange is expected.

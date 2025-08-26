@@ -116,7 +116,7 @@ export const PaymentInfoContainer: React.FC<{ children: React.ReactNode; classNa
     children, 
     className = '' 
 }) => (
-    <div className={`payment-section print:break-inside-avoid print:break-before-avoid ${className}`}>
+    <div className={`payment-section details-block print:break-inside-avoid print:break-before-avoid ${className}`}>
         {children}
     </div>
 );

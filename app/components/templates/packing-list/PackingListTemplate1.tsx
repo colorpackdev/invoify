@@ -216,7 +216,7 @@ const PackingListTemplate1 = (data: PackingListType) => {
             {/* Special Instructions */}
             {data.specialInstructions && (
                 <div className='mt-6'>
-                    <div className='bg-yellow-50 border border-yellow-200 rounded-lg p-4'>
+                    <div className='bg-yellow-50 border border-yellow-200 rounded-lg p-4 special-instructions details-block'>
                         <h3 className='text-lg font-semibold text-yellow-800 mb-2'>Special Instructions</h3>
                         <p className='text-sm text-gray-700'>{data.specialInstructions}</p>
                     </div>
@@ -226,7 +226,7 @@ const PackingListTemplate1 = (data: PackingListType) => {
             {/* Additional Notes */}
             {data.notes && (
                 <div className='mt-4'>
-                    <div className='bg-blue-50 border border-blue-200 rounded-lg p-4'>
+                    <div className='bg-blue-50 border border-blue-200 rounded-lg p-4 additional-notes details-block'>
                         <h3 className='text-lg font-semibold text-blue-800 mb-2'>Additional Notes</h3>
                         <p className='text-sm text-gray-700'>{data.notes}</p>
                     </div>
@@ -235,7 +235,7 @@ const PackingListTemplate1 = (data: PackingListType) => {
 
             {/* Compliance Information */}
             {(data.certificateOfOrigin || data.exportLicense) && (
-                <div className='mt-6 p-4 bg-green-50 border border-green-200 rounded-lg'>
+                <div className='mt-6 p-4 bg-green-50 border border-green-200 rounded-lg compliance-info details-block'>
                     <h3 className='text-lg font-semibold text-green-800 mb-2'>Compliance & Certification</h3>
                     <div className='grid grid-cols-2 gap-4 text-sm text-gray-700'>
                         {data.certificateOfOrigin && (
