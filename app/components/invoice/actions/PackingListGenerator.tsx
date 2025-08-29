@@ -214,10 +214,19 @@ export default function PackingListGenerator() {
             const basePackingListData = generatePackingListFromInvoice(filteredInvoice) as PackingListType;
             const formData = packingListForm.getValues();
             
-            const finalPackingListData = {
+            // Merge form data with base data
+            const mergedData = {
                 ...basePackingListData,
                 ...formData,
                 pdfTemplate: formData.pdfTemplate || 1,
+            };
+            
+            // Recalculate totals using the updated package data from the form
+            const updatedTotals = calculatePackingListTotals(mergedData.packages || basePackingListData.packages);
+            
+            const finalPackingListData = {
+                ...mergedData,
+                totals: updatedTotals,
             };
             
             // Use the context to generate PDF
@@ -262,10 +271,19 @@ export default function PackingListGenerator() {
         
         const updatedDate = new Date().toLocaleDateString("en-US", SHORT_DATE_OPTIONS);
         
-        const completePackingListData = {
+        // Merge form data with base data
+        const mergedData = {
             ...basePackingListData,
             ...formData,
             packingListDate: updatedDate,
+        };
+        
+        // Recalculate totals using the updated package data from the form
+        const updatedTotals = calculatePackingListTotals(mergedData.packages || basePackingListData.packages);
+        
+        const completePackingListData = {
+            ...mergedData,
+            totals: updatedTotals,
             // Store actual selected item data with their names/descriptions for validation
             _selectedItemsData: selectedInvoiceItems.map((item, index) => ({
                 index: selectedItems[index],
