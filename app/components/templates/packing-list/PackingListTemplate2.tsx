@@ -24,8 +24,25 @@ const PackingListTemplate2 = (data: PackingListType) => {
     const { shipper, consignee, shippingInfo, packages, totals } = data;
 
     const calculateVolume = (pkg: any) => {
-        const { length, width, height } = pkg.dimensions;
-        return (length * width * height).toFixed(2);
+        const { length, width, height, unit } = pkg.dimensions;
+        let volume = length * width * height;
+        
+        // Convert to cubic meters based on unit
+        switch (unit) {
+            case "cm":
+                volume = volume / 1000000; // cm³ to m³
+                break;
+            case "in":
+                volume = volume * 0.000016387; // in³ to m³
+                break;
+            case "ft":
+                volume = volume * 0.028317; // ft³ to m³
+                break;
+            default: // m
+                break;
+        }
+        
+        return (volume).toFixed(6);
     };
 
     const estimatedContentHeight = 800 + (packages.length * 200) + packages.reduce((acc, pkg) => acc + (pkg.items.length * 30), 0);
@@ -150,7 +167,7 @@ const PackingListTemplate2 = (data: PackingListType) => {
                                     <span className="font-semibold">Dimensions:</span> {pkg.dimensions.length} × {pkg.dimensions.width} × {pkg.dimensions.height} {pkg.dimensions.unit}
                                 </p>
                                 <p className="text-gray-600">
-                                    <span className="font-semibold">Volume:</span> {calculateVolume(pkg)} {pkg.dimensions.unit}³
+                                    <span className="font-semibold">Volume:</span> {calculateVolume(pkg)} m³
                                 </p>
                             </div>
                             {pkg.marks && (
