@@ -21,24 +21,19 @@ export function generatePackingListFromInvoice(invoice: InvoiceType): Partial<Pa
     // Calcula peso total dos itens (peso líquido)
     const totalItemWeight = packageItems.reduce((sum, item) => sum + item.totalWeight, 0);
 
-    // Define tipo de pacote padrão
-    const defaultPackageType = "box" as const;
-
-    // Calcula peso bruto estimado (líquido + embalagem)
-    // O usuário pode editar este valor manualmente no formulário
-    const grossWeight = calculateGrossWeight(totalItemWeight, defaultPackageType);
-
     // Cria pacote padrão
+    // IMPORTANTE: Peso bruto deve ser informado manualmente pelo usuário
+    // Não há cálculo automático pois cada empresa usa embalagens diferentes
     const defaultPackage: PackageType = {
         packageNumber: "PKG-001",
-        packageType: defaultPackageType,
+        packageType: "box",
         dimensions: {
             length: 50,
             width: 40,
             height: 30,
             unit: "cm",
         },
-        grossWeight: grossWeight,
+        grossWeight: totalItemWeight, // Valor inicial = peso líquido, usuário DEVE editar
         netWeight: totalItemWeight,
         weightUnit: "kg",
         items: packageItems,
@@ -146,60 +141,29 @@ export function calculatePackingListTotals(packages: PackageType[]) {
 }
 
 /**
- * Peso estimado da embalagem por tipo (em kg)
- * Valores base simples - o usuário pode ajustar manualmente o peso bruto
- */
-export const packagingWeights: Record<string, number> = {
-    box: 1.5,        // Caixa padrão
-    crate: 15.0,     // Engradado
-    pallet: 25.0,    // Palete
-    drum: 15.0,      // Tambor
-    bag: 0.3,        // Saco
-    bundle: 2.5,     // Fardo
-    container: 3800, // Container 40'
-    other: 2.0,      // Outro
-};
-
-/**
- * Calcula peso bruto estimado = peso líquido + peso da embalagem
- * O usuário pode editar manualmente este valor no formulário
- */
-export function calculateGrossWeight(
-    netWeight: number,
-    packageType: string
-): number {
-    const packagingWeight = packagingWeights[packageType] || 2.0;
-    const grossWeight = netWeight + packagingWeight;
-    return Math.round(grossWeight * 100) / 100;
-}
-
-/**
  * Configurações padrão de embalagem por tipo de produto
+ * NOTA: Apenas sugestões de dimensões e tipo de embalagem
+ * Pesos devem ser informados manualmente pelo usuário
  */
 export const defaultPackagingConfigs = {
     electronics: {
         packageType: "box" as const,
         dimensions: { length: 40, width: 30, height: 25, unit: "cm" as const },
-        weightRatio: 0.15, // 15% adicional para embalagem
     },
     clothing: {
         packageType: "bag" as const,
         dimensions: { length: 60, width: 40, height: 20, unit: "cm" as const },
-        weightRatio: 0.05, // 5% adicional para embalagem
     },
     machinery: {
         packageType: "crate" as const,
         dimensions: { length: 120, width: 80, height: 100, unit: "cm" as const },
-        weightRatio: 0.25, // 25% adicional para embalagem
     },
     food: {
         packageType: "box" as const,
         dimensions: { length: 50, width: 40, height: 30, unit: "cm" as const },
-        weightRatio: 0.10, // 10% adicional para embalagem
     },
     default: {
         packageType: "box" as const,
         dimensions: { length: 50, width: 40, height: 30, unit: "cm" as const },
-        weightRatio: 0.10, // 10% adicional para embalagem
     },
 };
