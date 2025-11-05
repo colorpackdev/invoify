@@ -6,6 +6,7 @@ import { useFormContext } from "react-hook-form";
 // ShadCn
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 // Components
 import { ChargeInput } from "@/app/components";
@@ -23,6 +24,8 @@ import { InvoiceType } from "@/types";
 const Charges = () => {
     const {
         formState: { errors },
+        watch,
+        setValue,
     } = useFormContext<InvoiceType>();
 
     const { _t } = useTranslationContext();
@@ -140,14 +143,42 @@ const Charges = () => {
                     )}
 
                     {shippingSwitch && (
-                        <ChargeInput
-                            label={_t("form.steps.summary.shipping")}
-                            name="details.shippingDetails.cost"
-                            switchAmountType={switchAmountType}
-                            type={shippingType}
-                            setType={setShippingType}
-                            currency={currency}
-                        />
+                        <>
+                            <ChargeInput
+                                label={_t("form.steps.summary.shipping")}
+                                name="details.shippingDetails.cost"
+                                switchAmountType={switchAmountType}
+                                type={shippingType}
+                                setType={setShippingType}
+                                currency={currency}
+                            />
+                            <div className="flex justify-between items-center gap-2">
+                                <Label htmlFor="incoterms" className="whitespace-nowrap">
+                                    Incoterms
+                                </Label>
+                                <Select
+                                    value={watch("details.shippingDetails.incoterms") || ""}
+                                    onValueChange={(value) => setValue("details.shippingDetails.incoterms", value as any)}
+                                >
+                                    <SelectTrigger id="incoterms" className="w-[180px]">
+                                        <SelectValue placeholder="Select Incoterms" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="EXW">EXW - Ex Works</SelectItem>
+                                        <SelectItem value="FCA">FCA - Free Carrier</SelectItem>
+                                        <SelectItem value="CPT">CPT - Carriage Paid To</SelectItem>
+                                        <SelectItem value="CIP">CIP - Carriage and Insurance Paid</SelectItem>
+                                        <SelectItem value="DAP">DAP - Delivered At Place</SelectItem>
+                                        <SelectItem value="DPU">DPU - Delivered at Place Unloaded</SelectItem>
+                                        <SelectItem value="DDP">DDP - Delivered Duty Paid</SelectItem>
+                                        <SelectItem value="FAS">FAS - Free Alongside Ship</SelectItem>
+                                        <SelectItem value="FOB">FOB - Free On Board</SelectItem>
+                                        <SelectItem value="CFR">CFR - Cost and Freight</SelectItem>
+                                        <SelectItem value="CIF">CIF - Cost, Insurance and Freight</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        </>
                     )}
 
                     <div className="flex justify-between items-center">

@@ -168,6 +168,19 @@ const TaxDetailsSchema = z.object({
 const ShippingDetailsSchema = z.object({
     cost: fieldValidators.stringToNumberWithMax,
     costType: fieldValidators.string,
+    incoterms: z.enum([
+        "EXW",
+        "FCA",
+        "CPT",
+        "CIP",
+        "DAP",
+        "DPU",
+        "DDP",
+        "FAS",
+        "FOB",
+        "CFR",
+        "CIF"
+    ]).optional(),
 });
 
 const SignatureSchema = z.object({
