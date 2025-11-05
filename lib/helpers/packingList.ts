@@ -18,33 +18,26 @@ export function generatePackingListFromInvoice(invoice: InvoiceType): Partial<Pa
         countryOfOrigin: item.physicalDetails?.countryOfOrigin || sender.country,
     }));
 
-    // Calcula peso total dos itens
+    // Calcula peso total dos itens (peso líquido)
     const totalItemWeight = packageItems.reduce((sum, item) => sum + item.totalWeight, 0);
-
-    // Define dimensões padrão da embalagem
-    const defaultDimensions = {
-        length: 50,
-        width: 40,
-        height: 30,
-        unit: "cm" as const,
-    };
 
     // Define tipo de pacote padrão
     const defaultPackageType = "box" as const;
 
-    // Calcula peso bruto usando a nova função realista
-    const grossWeight = calculateGrossWeight(
-        totalItemWeight,
-        defaultPackageType,
-        defaultDimensions,
-        true // Inclui materiais de proteção
-    );
+    // Calcula peso bruto estimado (líquido + embalagem)
+    // O usuário pode editar este valor manualmente no formulário
+    const grossWeight = calculateGrossWeight(totalItemWeight, defaultPackageType);
 
     // Cria pacote padrão
     const defaultPackage: PackageType = {
         packageNumber: "PKG-001",
         packageType: defaultPackageType,
-        dimensions: defaultDimensions,
+        dimensions: {
+            length: 50,
+            width: 40,
+            height: 30,
+            unit: "cm",
+        },
         grossWeight: grossWeight,
         netWeight: totalItemWeight,
         weightUnit: "kg",
@@ -153,124 +146,31 @@ export function calculatePackingListTotals(packages: PackageType[]) {
 }
 
 /**
- * Peso base da embalagem por tipo (em kg)
- * Esses valores são estimativas realistas baseadas em padrões da indústria
+ * Peso estimado da embalagem por tipo (em kg)
+ * Valores base simples - o usuário pode ajustar manualmente o peso bruto
  */
-export const packagingWeights = {
-    box: {
-        small: 0.5,      // Caixa pequena (< 30cm)
-        medium: 1.5,     // Caixa média (30-60cm)
-        large: 3.0,      // Caixa grande (> 60cm)
-    },
-    crate: {
-        small: 5.0,      // Engradado pequeno
-        medium: 15.0,    // Engradado médio
-        large: 30.0,     // Engradado grande
-    },
-    pallet: {
-        small: 15.0,     // Palete pequeno
-        medium: 25.0,    // Palete médio (padrão)
-        large: 35.0,     // Palete grande/reforçado
-    },
-    drum: {
-        small: 8.0,      // Tambor pequeno (50L)
-        medium: 15.0,    // Tambor médio (200L)
-        large: 25.0,     // Tambor grande (400L)
-    },
-    bag: {
-        small: 0.1,      // Saco pequeno
-        medium: 0.3,     // Saco médio
-        large: 0.5,      // Saco grande
-    },
-    bundle: {
-        small: 1.0,      // Fardo pequeno
-        medium: 2.5,     // Fardo médio
-        large: 5.0,      // Fardo grande
-    },
-    container: {
-        small: 2200,     // Container 20'
-        medium: 3800,    // Container 40'
-        large: 4800,     // Container 40' HC
-    },
-    other: {
-        small: 1.0,
-        medium: 3.0,
-        large: 6.0,
-    },
+export const packagingWeights: Record<string, number> = {
+    box: 1.5,        // Caixa padrão
+    crate: 15.0,     // Engradado
+    pallet: 25.0,    // Palete
+    drum: 15.0,      // Tambor
+    bag: 0.3,        // Saco
+    bundle: 2.5,     // Fardo
+    container: 3800, // Container 40'
+    other: 2.0,      // Outro
 };
 
 /**
- * Calcula o peso da embalagem baseado no tipo e dimensões
- */
-export function calculatePackagingWeight(
-    packageType: keyof typeof packagingWeights,
-    dimensions: { length: number; width: number; height: number; unit: string }
-): number {
-    const { length, width, height, unit } = dimensions;
-
-    // Converte tudo para cm para comparação
-    let maxDimension = Math.max(length, width, height);
-    switch (unit) {
-        case "m":
-            maxDimension *= 100;
-            break;
-        case "in":
-            maxDimension *= 2.54;
-            break;
-        case "ft":
-            maxDimension *= 30.48;
-            break;
-        default: // cm
-            break;
-    }
-
-    // Determina o tamanho baseado na maior dimensão
-    let size: "small" | "medium" | "large";
-    if (maxDimension < 30) {
-        size = "small";
-    } else if (maxDimension < 100) {
-        size = "medium";
-    } else {
-        size = "large";
-    }
-
-    // Retorna o peso da embalagem
-    return packagingWeights[packageType][size];
-}
-
-/**
- * Calcula peso bruto realista baseado no peso líquido, tipo de embalagem e dimensões
+ * Calcula peso bruto estimado = peso líquido + peso da embalagem
+ * O usuário pode editar manualmente este valor no formulário
  */
 export function calculateGrossWeight(
     netWeight: number,
-    packageType: keyof typeof packagingWeights,
-    dimensions: { length: number; width: number; height: number; unit: string },
-    includePackingMaterials: boolean = true
+    packageType: string
 ): number {
-    // Peso da embalagem
-    const packagingWeight = calculatePackagingWeight(packageType, dimensions);
-
-    // Peso de materiais de proteção (bubble wrap, papelão, etc)
-    // Estimativa: 3-7% do peso líquido, dependendo do tipo de embalagem
-    let packingMaterialsWeight = 0;
-    if (includePackingMaterials) {
-        const materialRatios: Record<string, number> = {
-            box: 0.05,
-            crate: 0.03,
-            pallet: 0.02,
-            drum: 0.02,
-            bag: 0.01,
-            bundle: 0.02,
-            container: 0.01,
-            other: 0.04,
-        };
-        packingMaterialsWeight = netWeight * (materialRatios[packageType] || 0.04);
-    }
-
-    // Peso bruto = peso líquido + peso da embalagem + materiais de proteção
-    const grossWeight = netWeight + packagingWeight + packingMaterialsWeight;
-
-    return Math.round(grossWeight * 100) / 100; // Arredonda para 2 casas decimais
+    const packagingWeight = packagingWeights[packageType] || 2.0;
+    const grossWeight = netWeight + packagingWeight;
+    return Math.round(grossWeight * 100) / 100;
 }
 
 /**
