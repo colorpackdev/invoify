@@ -18,10 +18,12 @@ export function generatePackingListFromInvoice(invoice: InvoiceType): Partial<Pa
         countryOfOrigin: item.physicalDetails?.countryOfOrigin || sender.country,
     }));
 
-    // Calcula peso total dos itens
+    // Calcula peso total dos itens (peso líquido)
     const totalItemWeight = packageItems.reduce((sum, item) => sum + item.totalWeight, 0);
-    
+
     // Cria pacote padrão
+    // IMPORTANTE: Peso bruto deve ser informado manualmente pelo usuário
+    // Não há cálculo automático pois cada empresa usa embalagens diferentes
     const defaultPackage: PackageType = {
         packageNumber: "PKG-001",
         packageType: "box",
@@ -31,7 +33,7 @@ export function generatePackingListFromInvoice(invoice: InvoiceType): Partial<Pa
             height: 30,
             unit: "cm",
         },
-        grossWeight: totalItemWeight + (totalItemWeight * 0.1), // 10% adicional para embalagem
+        grossWeight: totalItemWeight, // Valor inicial = peso líquido, usuário DEVE editar
         netWeight: totalItemWeight,
         weightUnit: "kg",
         items: packageItems,
@@ -71,7 +73,7 @@ export function generatePackingListFromInvoice(invoice: InvoiceType): Partial<Pa
             carrier: "",
             trackingNumber: "",
             shippingMethod: "standard",
-            incoterms: "EXW",
+            incoterms: details.shippingDetails?.incoterms || "EXW", // Usa Incoterms da invoice se disponível
             portOfLoading: "",
             portOfDischarge: "",
             containerNumber: "",
@@ -140,31 +142,28 @@ export function calculatePackingListTotals(packages: PackageType[]) {
 
 /**
  * Configurações padrão de embalagem por tipo de produto
+ * NOTA: Apenas sugestões de dimensões e tipo de embalagem
+ * Pesos devem ser informados manualmente pelo usuário
  */
 export const defaultPackagingConfigs = {
     electronics: {
         packageType: "box" as const,
         dimensions: { length: 40, width: 30, height: 25, unit: "cm" as const },
-        weightRatio: 0.15, // 15% adicional para embalagem
     },
     clothing: {
         packageType: "bag" as const,
         dimensions: { length: 60, width: 40, height: 20, unit: "cm" as const },
-        weightRatio: 0.05, // 5% adicional para embalagem
     },
     machinery: {
         packageType: "crate" as const,
         dimensions: { length: 120, width: 80, height: 100, unit: "cm" as const },
-        weightRatio: 0.25, // 25% adicional para embalagem
     },
     food: {
         packageType: "box" as const,
         dimensions: { length: 50, width: 40, height: 30, unit: "cm" as const },
-        weightRatio: 0.10, // 10% adicional para embalagem
     },
     default: {
         packageType: "box" as const,
         dimensions: { length: 50, width: 40, height: 30, unit: "cm" as const },
-        weightRatio: 0.10, // 10% adicional para embalagem
     },
 };
